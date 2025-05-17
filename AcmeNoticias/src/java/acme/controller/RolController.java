@@ -1,20 +1,23 @@
 package acme.controller;
 
 import acme.model.Rol;
+import acme.utilidad.Propiedades;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @WebServlet(name = "RolController", urlPatterns = {"/rol/*", "/roles"})
@@ -28,16 +31,7 @@ public class RolController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String vista; 
- 
-        String accion = "/roles"; 
-        if (request.getServletPath().equals("/rol")) { 
-            if (request.getPathInfo() != null) { 
-                accion = request.getPathInfo(); 
-            } else { 
-                accion = "error"; 
-            } 
-        } 
+        String vista="error", accion = request.getServletPath();
         
         switch (accion) { 
             case "/roles" -> { 
@@ -47,11 +41,9 @@ public class RolController extends HttpServlet {
                 request.setAttribute("roles", lb); 
                 vista = "roles"; 
             } 
-            case "/new" -> { 
-                vista = "formRol"; 
-            } 
-            default -> { 
-                vista = "error"; 
+            case "/rol" -> {
+                if(request.getPathInfo().equals("/new"))
+                    vista = "formRol";
             } 
         } 
  
@@ -63,26 +55,20 @@ public class RolController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         String accion = request.getPathInfo(); 
  
-        if (accion.equals("/save")) { 
- 
-            String name = request.getParameter("name"); 
-            try { 
- 
-                if (name.isEmpty()) { 
-                    throw new NullPointerException(); 
-                } 
+        if (request.getServletPath().equals("/rol") && request.getPathInfo().equals("/save")) { 
+            String name = request.getParameter("name");
+            
+            if(!name.isEmpty())
+            {
                 Rol p = new Rol(name); 
                 save(p); 
-                response.sendRedirect("http://localhost:8080/AcmeNoticias/roles"); 
- 
-            } catch (Exception e) { 
+                response.sendRedirect(Propiedades.getInstance().redirect+"/roles"); 
+            } else {
                 request.setAttribute("msg", "Error: datos no válidos"); 
                 RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/error.jsp"); 
                 rd.forward(request, response); 
-            } 
- 
+            }
         } else { 
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/error.jsp"); 
             rd.forward(request, response); 
@@ -100,7 +86,12 @@ public class RolController extends HttpServlet {
                 em.merge(p); 
             } 
             utx.commit(); 
-        } catch (Exception e) { 
+        } catch (Exception e) {
+            try {
+                utx.rollback();
+            } catch (IllegalStateException | SecurityException | SystemException ex) {
+                Logger.getLogger(RolController.class.getName()).log(Level.SEVERE, null, ex);
+            }            
             throw new RuntimeException(e); 
         } 
     } 
