@@ -26,3 +26,4 @@ replay_pid*
 acmeNoticiasDB
 derby.log
 derby.properties
+AcmeNoticias/nbproject/private/private.properties

@@ -15,33 +15,32 @@ import java.util.List;
 @Entity
 @Table(name = "Redactor")
 @NamedQueries({
-    @NamedQuery(name="Redactor.findAll", query="SELECT r FROM Redactor r"),
-})
+    @NamedQuery(name = "Redactor.findAll", query = "SELECT r FROM Redactor r"),})
 public class Redactor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre, apellido, dni;
+    private String nombre, apellido, dni, email, pwd;
 
     // ---- Relaciones ----
-    @OneToMany(mappedBy="redactor", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "redactor", cascade = CascadeType.PERSIST)
     private List<Articulo> articulos;
-    
-    
+
     // Constructores
     public Redactor() {
-    }    
+    }
 
-    public Redactor(String nombre, String apellido, String dni, List<Articulo> articulos) {
+    public Redactor(String nombre, String apellido, String dni, String email, String pwd, List<Articulo> articulos) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
+        this.email = email;
+        this.pwd = pwd;
         this.articulos = articulos;
     }
-    
-    
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -83,6 +82,21 @@ public class Redactor implements Serializable {
         this.articulos = articulos;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
     
     // Otros metodos
     @Override
@@ -91,7 +105,7 @@ public class Redactor implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Redactor)) {
