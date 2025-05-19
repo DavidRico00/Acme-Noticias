@@ -8,11 +8,11 @@
         <title>Noticias Acme, S.A.</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
-    
+
     <body class="body">
 
         <%@include file="shared/header.jsp" %>
-        
+
         <main class="container my-5">
             <section id="bienvenida" class="mb-4">
                 <h2>Bienvenido a Noticias Acme, S.A.</h2>
@@ -20,19 +20,21 @@
             </section>
 
             <section id="ultimas-noticias">
-                <h2>Últimas Publicaciones</h2>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h3 class="card-title">Inteligencia Artificial: Avances en 2025</h3>
-                        <p class="card-text">La IA continúa transformando sectores clave como la medicina, la educación y la comunicación. Conoce las últimas innovaciones.</p>
-                    </div>
-                </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h3 class="card-title">Cumbre Internacional sobre el Cambio Climático</h3>
-                        <p class="card-text">Líderes mundiales se reúnen para abordar los desafíos ambientales más urgentes. Te contamos qué acuerdos se han alcanzado.</p>
-                    </div>
-                </div>
+                <c:if test="${!empty requestScope.articulos}"> 
+                    <h2>Últimas Publicaciones</h2>
+                    <c:forEach var="articulo" items="${requestScope.articulos}" > 
+                        <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="card mb-3 text-decoration-none text-dark">
+                            <div class="card-body">
+                                <h3 class="card-title">${articulo.titulo}</h3>
+                                <p class="card-text">Autor: ${articulo.redactor.nombre}</p>
+                                <p class="card-text">Fecha: ${articulo.fecha}</p>
+                            </div>
+                        </a>
+                    </c:forEach> 
+                </c:if> 
+                <c:if test="${empty requestScope.articulos}"> 
+                    <h2>Oops! No hay articulos todavía!</h2> 
+                </c:if>
             </section>
         </main>
 
