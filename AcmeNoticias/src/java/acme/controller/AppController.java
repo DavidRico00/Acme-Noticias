@@ -1,6 +1,7 @@
 package acme.controller;
 
 import acme.model.Administrador;
+import acme.model.Articulo;
 import acme.model.Redactor;
 import acme.utilidad.Propiedades;
 import jakarta.annotation.Resource;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.UserTransaction;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "AppController", urlPatterns = {"/main", "/login/*", "/logout"})
 public class AppController extends HttpServlet {
@@ -24,13 +26,13 @@ public class AppController extends HttpServlet {
     private EntityManager em;
     @Resource
     private UserTransaction utx;
-    
+
     private HttpSession session;
     String servletPath, pathInfo;
-    
-    private void setAttributes(HttpServletRequest request)
-    {
-        servletPath = request.getServletPath(); pathInfo = request.getPathInfo();
+
+    private void setAttributes(HttpServletRequest request) {
+        servletPath = request.getServletPath();
+        pathInfo = request.getPathInfo();
         session = request.getSession();
         session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
     }
@@ -38,72 +40,79 @@ public class AppController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String vista = "error";
+        String vista = "";
         setAttributes(request);
 
         switch (servletPath) {
-            case "/main":{
+            case "/main": {
                 vista = "main";
-            }break;
-            
-            case "/login":{
+                TypedQuery<Articulo> query = em.createNamedQuery("Articulo.findAll", Articulo.class);
+                List<Articulo> articulos = query.getResultList();
+                request.setAttribute("articulos", articulos);
+            }
+            break;
+
+            case "/login": {
                 vista = "login";
                 request.removeAttribute("msg");
-            }break;
-            
-            case "/logout":{
+            }
+            break;
+
+            case "/logout": {
                 session.invalidate();
-                vista="main";
-            }break;
+                response.sendRedirect(Propiedades.getInstance().redirect + "/main");
+            }
+            break;
+
+            default:
+                vista = "error";
         }
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
-        rd.forward(request, response);
+
+        if (!vista.equals("")) {
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String vista="";
+        String vista = "";
         setAttributes(request);
 
         if (servletPath.equals("/login")) {
             if (pathInfo.equals("/check")) {
                 boolean identificado = false;
                 String email = request.getParameter("email"), psw = request.getParameter("password");
-                
+
                 Administrador adm = checkAdmin(email, psw);
-                if(adm!=null)
-                {
+                if (adm != null) {
                     session.setAttribute("admin", adm.getId());
                     session.setAttribute("id", adm.getId());
                     identificado = true;
-                } 
-                else
-                {
+                } else {
                     Redactor red = checkRedactor(email, psw);
-                    if(red!=null)
-                    {
+                    if (red != null) {
+                        session.setAttribute("redactor", adm.getId());
                         session.setAttribute("id", red.getId());
                         identificado = true;
                     }
                 }
-                
-                if(identificado)
-                    response.sendRedirect(Propiedades.getInstance().redirect+"/main");
-                else{
+
+                if (identificado) {
+                    response.sendRedirect(Propiedades.getInstance().redirect + "/main");
+                } else {
                     request.setAttribute("msg", "Error: email o contraseña erroneos");
                     vista = "login";
                 }
             }
         }
-        
-        if(!vista.equals(""))
-        {
+
+        if (!vista.equals("")) {
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
             rd.forward(request, response);
         }
-        
+
     }
 
     private Administrador checkAdmin(String email, String psw) {
@@ -113,13 +122,13 @@ public class AppController extends HttpServlet {
             TypedQuery<Administrador> query = em.createNamedQuery("Administrador.findByEmailPwd", Administrador.class);
             query.setParameter("email", email);
             query.setParameter("pwd", psw);
-            adm = query.getSingleResult();           
+            adm = query.getSingleResult();
         } catch (Exception e) {
         }
 
         return adm;
     }
-    
+
     private Redactor checkRedactor(String email, String psw) {
         Redactor adm = null;
 
