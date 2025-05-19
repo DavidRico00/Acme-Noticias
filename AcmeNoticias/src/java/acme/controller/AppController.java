@@ -93,7 +93,7 @@ public class AppController extends HttpServlet {
                 } else {
                     Redactor red = checkRedactor(email, psw);
                     if (red != null) {
-                        session.setAttribute("redactor", adm.getId());
+                        session.setAttribute("redactor", red.getId());
                         session.setAttribute("id", red.getId());
                         identificado = true;
                     }

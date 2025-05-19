@@ -39,10 +39,12 @@ public class PerfilController extends HttpServlet {
             throws ServletException, IOException {
         String vista = "perfil";
         setAttributes(request);
-        long id = (long) request.getAttribute("id");
         
-        Redactor redactor = em.find(Redactor.class,id);
+        long id = Long.parseLong(request.getParameter("id"));
+        
+        Redactor redactor = em.find(Redactor.class, id);
         request.setAttribute("redactor", redactor);
+        
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
         rd.forward(request, response);
     }
