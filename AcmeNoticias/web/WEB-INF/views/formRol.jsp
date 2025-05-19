@@ -4,21 +4,21 @@
     <head> 
         <meta charset="UTF-8"> 
         <title>Acme</title>
-        <link href="/AcmeNoticias/css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="${sessionScope.ContextPath}/css/main.css" rel="stylesheet" type="text/css"/>
     </head> 
     
     <body>
         <h1>Añadir rol a la DB</h1> 
          
-        <form id="formulario" action="/AcmeNoticias/rol/save" method="POST"> 
+        <form id="formulario" action="${sessionScope.ContextPath}/rol/save" method="POST"> 
             <label for="name">Nombre del Rol:</label> 
             <input id="name" type="text" name="name" ><br />                  
              
             <input type="submit" value="Guardar" /> 
         </form> 
  
-        <a href="/AcmeNoticias/roles">Ver Roles</a> 
+        <a href="${sessionScope.ContextPath}/roles">Ver Roles</a> 
          
-        <script src="/AcmeNoticias/js/functions.js"></script>
+        <script src="${sessionScope.ContextPath}/js/functions.js"></script>
     </body> 
 </html>

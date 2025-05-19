@@ -8,6 +8,7 @@ public class Propiedades {
     }
     
     private final String HOST = "localhost";
-    public final String redirect = "http://" + HOST + ":8080/AcmeNoticias";
+    public final String ContextPath = "/acme";
+    public final String redirect = "http://"+HOST+":8080"+ContextPath;
 
 }

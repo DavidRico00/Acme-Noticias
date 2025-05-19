@@ -27,3 +27,4 @@ acmeNoticiasDB
 derby.log
 derby.properties
 AcmeNoticias/nbproject/private/private.properties
+/AcmeNoticias/dist/

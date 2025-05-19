@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 import java.util.List;
@@ -27,11 +28,14 @@ public class RolController extends HttpServlet {
     private EntityManager em;
     @Resource
     private UserTransaction utx;
+    
+    private HttpSession session;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String vista="error", accion = request.getServletPath();
+        session = request.getSession();
         
         switch (accion) { 
             case "/roles" -> { 
@@ -47,6 +51,7 @@ public class RolController extends HttpServlet {
             } 
         } 
  
+        session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp"); 
         rd.forward(request, response); 
     }
@@ -55,6 +60,8 @@ public class RolController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        session = request.getSession();
+        session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
  
         if (request.getServletPath().equals("/rol") && request.getPathInfo().equals("/save")) { 
             String name = request.getParameter("name");

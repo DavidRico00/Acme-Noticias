@@ -15,7 +15,8 @@ import java.util.List;
 @Entity
 @Table(name = "Redactor")
 @NamedQueries({
-    @NamedQuery(name = "Redactor.findAll", query = "SELECT r FROM Redactor r"),})
+    @NamedQuery(name = "Redactor.findAll", query = "SELECT r FROM Redactor r"),
+    @NamedQuery(name = "Redactor.findByEmailPwd", query = "SELECT r FROM Redactor r WHERE r.email = :email AND r.pwd = :pwd"),})
 public class Redactor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -97,7 +98,7 @@ public class Redactor implements Serializable {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
-    
+
     // Otros metodos
     @Override
     public int hashCode() {

@@ -1,13 +1,6 @@
-Accesos:    ALL     -> todos
-            adm     -> Administrador
-            red     -> Redactor
-            lec     -> Lector
 
-| EndPoint                 | Descripcion                  | Metod | Permit |
-| ------------------------ | ---------------------------- | ----- | ------ |
-| /articulos               | lista todos los articulos    | GET   | ALL    |
-| ADMINISTRADOR            | -                            | -     | -      |
-| /admin                   | pagina principal del admin   | GET   | adm    |
-| /admin/dasboard          | muestra el dashboard         | GET   | adm    |
-| /admin/gestionCategorias | muestra todas las categorias | GET   | adm    |
-| /admin/gestionRedactores | muestra todos los redactores | GET   | adm    |
+| EndPoint     | Descripcion              | Metod | Permit |
+| ------------ | ------------------------ | ----- | ------ |
+| /main        | lista de articulos       | GET   | ALL    |
+| /login       | form de inicio de sesion | GET   | ALL    |
+| /login/check | comprobar datos          | POST  | ALL    |
