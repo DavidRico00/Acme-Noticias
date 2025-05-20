@@ -4,7 +4,7 @@ INSERT INTO Rol (nombreRol) VALUES ('USER');
 
 -- Insertar Administrador
 INSERT INTO Administradores (id, nombre, email, pwd)
-VALUES (1, 'Lucía', 'lucia@acme.com', 'admin123');
+VALUES (1, 'Lucía', 'lucia@acme.com', '0192023a7bbd73250516f069df18b500');--admin123 es la PWD
 
 -- Insertar Redactor
 INSERT INTO Redactor (id, nombre, apellido, dni, email, pwd)
