@@ -1,6 +1,3 @@
--- Roles
-INSERT INTO Rol (nombreRol) VALUES ('ADMIN');
-INSERT INTO Rol (nombreRol) VALUES ('USER');
 
 -- Insertar Administrador
 INSERT INTO Administradores (id, nombre, email, pwd)

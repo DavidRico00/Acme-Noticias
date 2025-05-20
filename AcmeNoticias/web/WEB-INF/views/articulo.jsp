@@ -40,6 +40,29 @@
                     <c:if test="${empty requestScope.articulo.comentarios}">
                         <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
                     </c:if>
+                    <div class="card mt-4">
+                        <div class="card-header bg-light">
+                            <h4 class="mb-0">Deja tu comentario</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="${sessionScope.ContextPath}/agregarComentario?articuloId=${requestScope.articulo.id}" method="post">
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="nombre" class="form-label">Nombre *</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cuerpo" class="form-label">Comentario *</label>
+                                    <textarea class="form-control" id="cuerpo" name="cuerpo" rows="4" required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Publicar comentario</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Fin del formulario de comentarios -->
                 </section>
 
                 <div class="mt-4">
