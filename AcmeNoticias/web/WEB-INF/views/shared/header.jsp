@@ -1,7 +1,7 @@
 <header class="header">
     <div class="encabezado">
         <div class="logonombre">
-            <a href="${sessionScope.ContextPath}/main"><img class="encabezadoimg" src="${sessionScope.ContextPath}/img/logo.png"/></a>
+            <a href="${sessionScope.ContextPath}/main"><img class="encabezadoimg" src="${sessionScope.ContextPath}/img/logoblanco.png"/></a>
             <h1 href="${sessionScope.ContextPath}/main">Noticias Acme, S.A.</h1>
         </div>
     </div>
