@@ -46,6 +46,10 @@ public class ArticuloController extends HttpServlet {
                 request.setAttribute("articulo", art);
                 vista = "articulo";
             }
+            else if(pathInfo.equals("/nuevo"))
+            {
+                vista = "crearArticulo";
+            }
         }
         
         if(!vista.equals(""))
