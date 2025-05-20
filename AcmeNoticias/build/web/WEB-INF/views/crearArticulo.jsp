@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
         <!-- Incluir Quill editor para el editor de texto enriquecido -->
         <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" rel="stylesheet">
+        <link href="${sessionScope.ContextPath}/css/main.css" rel="stylesheet" type="text/css">
     </head>
     <body class="body">
         <%@include file="shared/header.jsp" %>
