@@ -52,7 +52,7 @@ public class AdministradorController extends HttpServlet {
             totalComentarios /= articulos.size();
             request.setAttribute("media", totalComentarios);
             
-            articulos.sort(Comparator.comparingInt(a -> a.getComentarios().size()));
+            articulos.sort(Comparator.comparingInt((Articulo a) -> a.getComentarios().size()).reversed());
             if(articulos.size()>5)
                 articulos = articulos.subList(0, 5);
             
