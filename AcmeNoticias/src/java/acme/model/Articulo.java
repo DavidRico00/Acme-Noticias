@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "Articulos")
 @NamedQueries({
     @NamedQuery(name="Articulo.findAll", query="SELECT a FROM Articulo a"),
-    @NamedQuery(name="Articulo.findByRedactorID", query="SELECT a FROM Articulo a WHERE a.redactor.id = :id")
+    @NamedQuery(name="Articulo.findByRedactorID", query="SELECT a FROM Articulo a WHERE a.redactor.id = :id"),
 })
 public class Articulo implements Serializable {
 
