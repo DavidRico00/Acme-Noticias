@@ -16,9 +16,10 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/main">Inicio</a></li>
                     <c:if test="${sessionScope.id != null}">
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/perfil?id=${sessionScope.id}">Perfil</a></li>
+                        
                     </c:if>
                     <c:if test="${sessionScope.redactor != null}">
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/perfil?id=${sessionScope.id}">Perfil</a></li>
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/misarticulos?id=${sessionScope.id}">Mis Articulos</a></li>
                     </c:if>
                     <c:if test="${sessionScope.admin != null}">
