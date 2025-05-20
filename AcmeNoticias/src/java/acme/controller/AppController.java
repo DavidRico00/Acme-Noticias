@@ -4,6 +4,7 @@ import acme.model.Administrador;
 import acme.model.Articulo;
 import acme.model.Redactor;
 import acme.utilidad.Propiedades;
+import acme.utilidad.Seguridad;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -83,8 +84,7 @@ public class AppController extends HttpServlet {
         if (servletPath.equals("/login")) {
             if (pathInfo.equals("/check")) {
                 boolean identificado = false;
-                String email = request.getParameter("email"), psw = request.getParameter("password");
-
+                String email = request.getParameter("email"), psw = Seguridad.pwdMD5(request.getParameter("password"));
                 Administrador adm = checkAdmin(email, psw);
                 if (adm != null) {
                     session.setAttribute("admin", adm.getId());
