@@ -1,9 +1,3 @@
-<%-- 
-    Document   : perfil
-    Created on : May 19, 2025, 11:31:08 AM
-    Author     : Usuario
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
