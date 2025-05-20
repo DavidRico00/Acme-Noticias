@@ -1,6 +1,6 @@
 package acme.controller;
 
-import acme.model.Redactor;
+import acme.model.Articulo;
 import acme.utilidad.Propiedades;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
@@ -15,8 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.UserTransaction;
 
-@WebServlet(name = "PerfilController", urlPatterns = {"/perfil"})
-public class PerfilController extends HttpServlet {
+@WebServlet(name = "ArticuloController", urlPatterns = {"/articulo/*"})
+public class ArticuloController extends HttpServlet {
 
     @PersistenceContext(unitName = "AcmeNoticiasPU")
     private EntityManager em;
@@ -36,21 +36,29 @@ public class PerfilController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String vista = "perfil";
         setAttributes(request);
+        String vista="";
         
-        long id = Long.parseLong(request.getParameter("id"));
+        if(servletPath.equals("/articulo")){
+            if(pathInfo==null){
+                long id = Long.parseLong(request.getParameter("id"));
+                Articulo art = em.find(Articulo.class, id);
+                request.setAttribute("articulo", art);
+                vista = "articulo";
+            }
+        }
         
-        Redactor redactor = em.find(Redactor.class, id);
-        request.setAttribute("redactor", redactor);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
-        rd.forward(request, response);
+        if(!vista.equals(""))
+        {
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
     }
 
 }
