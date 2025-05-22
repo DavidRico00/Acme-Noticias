@@ -33,7 +33,7 @@ public class Articulo implements Serializable {
     private Redactor redactor;
     @ManyToOne(fetch = FetchType.LAZY)
     private Categoria categoria;
-    @OneToMany(mappedBy="articulo", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="articulo", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comentario> comentarios;
     
     

@@ -1,18 +1,14 @@
-
-let f = document.getElementById("formulario"); 
-f.addEventListener("submit", checkData); 
- 
-function checkData(evt) { 
-     
-    let ok = true; 
-     
-    let name = document.getElementById("name").value; 
-     
-    if (name === "") { 
-        alert("El nombre es obligatorio"); 
-        evt.preventDefault(); 
-        ok = false; 
-    } 
-     
-    return ok; 
-} 
+function eliminarArticulo(contextPath, articuloId) {
+    if (!confirm("¿Estás seguro de que deseas eliminar este artículo?")) {
+        return;
+    }
+    fetch(`${contextPath}/articulo/eliminar?id=${articuloId}`, {
+        method: 'POST'
+    }).then(response => {
+        if(response.ok){
+            location.reload();
+        }else{
+            alert("Error al eliminar el articulo");
+        }
+    });
+}
