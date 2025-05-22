@@ -4,8 +4,8 @@ INSERT INTO Administradores (id, nombre, email, pwd)
 VALUES (1, 'Lucía', 'lucia@acme.com', '0192023a7bbd73250516f069df18b500');--admin123 es la PWD
 
 -- Insertar Redactor
-INSERT INTO Redactor (id, nombre, apellido, dni, email, pwd)
-VALUES (1, 'Carlos', 'Pérez', '12345678A', 'carlos@acme.com', '32250170a0dca92d53ec9624f336ca24');--pass123 es la PWD
+INSERT INTO Redactor (id, nombre, apellido, dni, email, pwd, rutaimg)
+VALUES (1, 'Carlos', 'Pérez', '12345678A', 'carlos@acme.com', '32250170a0dca92d53ec9624f336ca24', null);--pass123 es la PWD
 
 -- Categorías
 INSERT INTO Categorias (nombre, descripcion) VALUES ('Tecnología', 'Artículos sobre innovación y tecnología.');

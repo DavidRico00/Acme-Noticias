@@ -3,10 +3,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%@include file="shared/head.jsp" %>
         <title>Perfil usuario</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${sessionScope.ContextPath}/css/main.css" rel="stylesheet" type="text/css">
     </head>
     <%@include file="shared/header.jsp" %>
     <body>
@@ -18,25 +16,28 @@
                 <c:remove var="msg" scope="session"/>
             </c:if>
             <div class="perfil-detalles">
-                <form action="${sessionScope.ContextPath}" method="POST" enctype="multipart/form-data">
+                <form action="${sessionScope.ContextPath}/perfil/editarperfil" method="POST" enctype="multipart/form-data">
                     <input type="text" id="id" name="id" value="${requestScope.redactor.id}" style="display: none"/>
-                    <input type="file" id="profileimg" name="profileimg" style="display: none">
+                    <div class="profile-picture">
+                        <c:if test="${!empty requestScope.redactor.rutaimg}">
+                            <img src="${sessionScope.ContextPath}${requestScope.redactor.rutaimg}"/>
+                        </c:if>
+                        <c:if test="${empty requestScope.redactor.rutaimg}">
+                            <img src="${sessionScope.ContextPath}/img/default.jpg"/>
+                        </c:if>
+                    </div>
+                    
                     <h2 class="titulostabla">${requestScope.redactor.nombre} ${requestScope.redactor.apellido}</h2>
                     <div class="inputs-perfil">
                         <label>
                             <strong>Correo electrónico</strong> <input type="text" id="email" name="email" value="${requestScope.redactor.email}" disabled="true"/>
                         </label>
                         <label>
-                            <strong>NIF</strong> <input type="text" id="nif" name="nif" value="${requestScope.redactor.dni}" disabled="true"/>
+                            <strong>DNI</strong> <input type="text" id="dni" name="dni" value="${requestScope.redactor.dni}" disabled="true"/>
                         </label>
+                        <input type="file" id="profileimg" name="profileimg" style="display: none">
                     </div>
-                    <button class="btn btn-danger editar-perfil" style="margin: 1rem; display: none" id="cancelarPerfil">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                        </svg>
-                        Cancelar
-                    </button>
+                            
                     <button type="submit" class="btn btn-success editar-perfil" style="margin: 1rem; display: none" id="guardarPerfil">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
                         <path d="M11 2H9v3h2z"/>
@@ -45,7 +46,14 @@
                         Guardar
                     </button>
                 </form>
-                <button class="btn btn-primary" style="margin: 1rem;" id="editarPerfil" onclick="editarPerfil()" >
+                <button class="btn btn-danger editar-perfil" style="margin: 1rem; display: none" id="cancelarPerfil" onclick="location.reload()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                    </svg>
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" style="margin: 1rem;" id="editarPerfil" onclick="activarBotones()" >
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
                     </svg>

@@ -12,3 +12,16 @@ function eliminarArticulo(contextPath, articuloId) {
         }
     });
 }
+
+function activarBotones(){
+    document.getElementById("email").disabled = false;
+    document.getElementById("dni").disabled = false;
+    document.getElementById("editarPerfil").style.display = "none";
+    document.getElementById("cancelarPerfil").style.display = "inline";
+    document.getElementById("guardarPerfil").style.display = "inline";
+    document.getElementById("profileimg").style.display = "inline";
+}
+
+function desactivarBotones(){
+    location.reload();
+}

@@ -8,11 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${sessionScope.ContextPath}/css/main.css" rel="stylesheet" type="text/css">
-        <script src="${sessionScope.ContextPath}/js/functions.js"></script>
+        <%@include file="shared/head.jsp" %>
         <title>Mis Artículos - Noticias Acme, S.A</title>
     </head>
     <body>

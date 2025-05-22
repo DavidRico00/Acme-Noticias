@@ -23,7 +23,7 @@ public class Redactor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre, apellido, dni, email, pwd;
+    private String nombre, apellido, dni, email, pwd, rutaimg;
 
     // ---- Relaciones ----
     @OneToMany(mappedBy = "redactor", cascade = CascadeType.PERSIST)
@@ -99,6 +99,16 @@ public class Redactor implements Serializable {
         this.pwd = pwd;
     }
 
+    public String getRutaimg() {
+        return rutaimg;
+    }
+    
+    public void setRutaimg(String rutaimg) {
+        this.rutaimg = rutaimg;
+    }
+    
+    
+    
     // Otros metodos
     @Override
     public int hashCode() {
