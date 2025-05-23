@@ -1,6 +1,7 @@
 package acme.controller;
 
 import acme.model.Articulo;
+import acme.model.Categoria;
 import acme.utilidad.Propiedades;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
@@ -14,12 +15,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.NotSupportedException;
-import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 @WebServlet(name = "ArticuloController", urlPatterns = {"/articulo/*", "/misarticulos"})
 public class ArticuloController extends HttpServlet {
@@ -52,6 +50,9 @@ public class ArticuloController extends HttpServlet {
                 request.setAttribute("articulo", art);
                 vista = "articulo";
             } else if (pathInfo.equals("/nuevo")) {
+                TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
+                List<Categoria> categorias = query.getResultList();
+                request.setAttribute("categorias", categorias);
                 vista = "crearArticulo";
             }
         } else if (servletPath.equals("/misarticulos")) {

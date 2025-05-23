@@ -1,7 +1,7 @@
 package acme.controller;
 
 import acme.model.Articulo;
-import acme.model.Redactor;
+import acme.model.Categoria;
 import acme.utilidad.Propiedades;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;

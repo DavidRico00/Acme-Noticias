@@ -20,15 +20,20 @@
             <section id="ultimas-noticias">
                 <c:if test="${!empty requestScope.articulos}"> 
                     <h2>Últimas Publicaciones</h2>
-                    <c:forEach var="articulo" items="${requestScope.articulos}" > 
-                        <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="card mb-3 text-decoration-none text-dark">
-                            <div class="card-body">
-                                <h3 class="card-title">${articulo.titulo}</h3>
-                                <p class="card-text">Autor: ${articulo.redactor.nombre}</p>
-                                <p class="card-text">Fecha: ${articulo.fecha}</p>
-                            </div>
-                        </a>
-                    </c:forEach> 
+                    <c:forEach var="articulo" items="${requestScope.articulos}">
+                        <div class="card shadow-sm mb-4">
+                            <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="text-decoration-none text-dark">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">${articulo.titulo}</h4>
+                                    <div class="d-flex justify-content-between text-muted mb-2" style="font-size: 0.9rem;">
+                                        <span><i class="bi bi-person-fill"></i> ${articulo.redactor.nombre}</span>
+                                        <span><i class="bi bi-calendar-event-fill"></i> ${articulo.fecha}</span>
+                                    </div>
+                                    <p class="mb-2"><span class="badge bg-secondary">${articulo.categoria.nombre}</span></p>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
                 </c:if> 
                 <c:if test="${empty requestScope.articulos}"> 
                     <h2>Oops! No hay articulos todavía!</h2> 
