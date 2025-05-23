@@ -41,13 +41,16 @@ public class PerfilController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String vista = "perfil";
+        String vista = "";
         setAttributes(request);
 
-        long id = Long.parseLong(request.getParameter("id"));
+        if (servletPath.equals("/perfil")) {
+            long id = Long.parseLong(request.getParameter("id"));
 
-        Redactor redactor = em.find(Redactor.class, id);
-        request.setAttribute("redactor", redactor);
+            Redactor redactor = em.find(Redactor.class, id);
+            request.setAttribute("redactor", redactor);
+            vista = "perfil";
+        }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
         rd.forward(request, response);
@@ -58,7 +61,7 @@ public class PerfilController extends HttpServlet {
             throws ServletException, IOException {
         String vista = "";
         setAttributes(request);
-        
+
         if (servletPath.equals("/perfil")) {
             if (pathInfo.equals("/editarperfil")) {
                 long idweqw = Long.parseLong(request.getParameter("id"));
@@ -82,7 +85,7 @@ public class PerfilController extends HttpServlet {
                         InputStream filecontent = imgPart.getInputStream();
                         int read = 0;
                         final byte[] bytes = new byte[1024];
-                        while ((read = filecontent.read(bytes)) != -1) {                            
+                        while ((read = filecontent.read(bytes)) != -1) {
                             fos.write(bytes, 0, read);
                         }
                         fos.close();

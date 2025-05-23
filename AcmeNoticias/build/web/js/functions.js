@@ -40,3 +40,18 @@ function activarBotones(){
 function desactivarBotones(){
     location.reload();
 }
+
+function eliminarRedactor(contextPath, redactorId) {
+    if (!confirm("¿Estás seguro de que deseas eliminar este artículo?")) {
+        return;
+    }
+    fetch(`${contextPath}/eliminar?id=${redactorId}`, {
+        method: 'POST'
+    }).then(response => {
+        if(response.ok){
+            location.reload();
+        }else{
+            alert("Error al eliminar el articulo");
+        }
+    });
+}
