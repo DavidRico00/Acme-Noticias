@@ -34,11 +34,9 @@
                         </c:if>
                         
                         <form action="${sessionScope.ContextPath}/admin/guardarArticulo" method="post" enctype="multipart/form-data" id="formArticulo">
-                            <!-- Campos ocultos -->
                             <input type="hidden" name="redactorId" value="${sessionScope.usuario.id}">
                             <input type="hidden" name="contenidoHtml" id="contenidoHtml">
                             
-                            <!-- Título del artículo -->
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Título del Artículo *</label>
                                 <input type="text" class="form-control" id="titulo" name="titulo" 
@@ -46,7 +44,6 @@
                             </div>
                             
                             
-                            <!-- Categoría -->
                             <div class="mb-3">
                                 <label for="categoriaId" class="form-label">Categoría *</label>
                                 <select class="form-select" id="categoriaId" name="categoriaId" required>
@@ -57,16 +54,12 @@
                                 </select>
                             </div>
    
-                            
-                            <!-- Editor de contenido -->
                             <div class="mb-3">
                                 <label for="editor" class="form-label">Contenido del Artículo *</label>
                                 <div id="editor" style="min-height: 300px;"></div>
                                 <div class="form-text">Utiliza el editor para dar formato a tu contenido</div>
                             </div>
                             
-                            
-                            <!-- Botones de acción -->
                             <div class="d-flex justify-content-end gap-2">
                                 <button type="button" class="btn btn-outline-secondary" onclick="location.href='${sessionScope.ContextPath}/admin/articulos'">
                                     <i class="bi bi-x-circle me-1"></i>Cancelar
@@ -83,13 +76,11 @@
         
         <%@include file="shared/footer.jsp" %>
         
-        <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Quill Editor JS -->
+
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.min.js"></script>
         
         <script>
-            // Inicializar el editor Quill
             const quill = new Quill('#editor', {
                 theme: 'snow',
                 modules: {
@@ -104,10 +95,8 @@
                     ]
                 }
             });
-            
-            // Manejar envío del formulario
+
             document.getElementById('formArticulo').addEventListener('submit', function(e) {
-                // Capturar el contenido HTML del editor y colocarlo en el campo oculto
                 document.getElementById('contenidoHtml').value = quill.root.innerHTML;
                 
                 // Si el campo de título o resumen están vacíos, detener el envío
@@ -119,18 +108,15 @@
                 }
             });
             
-            // Botón para guardar como borrador
             document.getElementById('btnBorrador').addEventListener('click', function() {
                 document.getElementById('publicado').checked = false;
                 document.getElementById('contenidoHtml').value = quill.root.innerHTML;
                 document.getElementById('formArticulo').submit();
             });
             
-            // Validar el tamaño de la imagen
             document.getElementById('imagen').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
-                    // Verificar tamaño (5MB máximo)
                     if (file.size > 5 * 1024 * 1024) {
                         alert('El archivo es demasiado grande. El tamaño máximo permitido es 5MB.');
                         e.target.value = '';

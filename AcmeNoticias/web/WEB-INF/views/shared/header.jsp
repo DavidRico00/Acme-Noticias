@@ -25,6 +25,9 @@
                     <c:if test="${sessionScope.admin != null}">
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/dashboard">Dashboard</a></li>
                     </c:if>
+                    <c:if test="${sessionScope.admin != null}">
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores">Lista Redactores</a></li>
+                    </c:if>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
