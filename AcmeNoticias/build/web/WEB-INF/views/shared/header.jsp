@@ -18,11 +18,11 @@
                     <c:if test="${sessionScope.id != null}">
                         
                     </c:if>
-                    <c:if test="${sessionScope.redactor != null}">
+                    <c:if test="${sessionScope.redactorId != null}">
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/perfil?id=${sessionScope.id}">Perfil</a></li>
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/misarticulos?id=${sessionScope.id}">Mis Articulos</a></li>
                     </c:if>
-                    <c:if test="${sessionScope.admin != null}">
+                    <c:if test="${sessionScope.adminId != null}">
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/dashboard">Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/gestionCategorias">Gestión de Categorias</a></li>
                     </c:if>

@@ -1,7 +1,6 @@
 package acme.controller;
 
 import acme.model.Articulo;
-import acme.model.Categoria;
 import acme.utilidad.Propiedades;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
@@ -18,10 +17,11 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.UserTransaction;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 @WebServlet(name = "AdministradorController", urlPatterns = {"/dashboard"})
 public class AdministradorController extends HttpServlet {
+/*      /dashboard  GET  ADMIN  ✅
+*/
 
     @PersistenceContext(unitName = "AcmeNoticiasPU")
     private EntityManager em;
@@ -42,9 +42,14 @@ public class AdministradorController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         setAttributes(request);
+        if(session.getAttribute("adminId") == null){
+            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
+            return;
+        }
+        
         String vista = "";
 
-        if (servletPath.equals("/dashboard")) {
+        if (servletPath.equals("/dashboard") && pathInfo==null || pathInfo.equals("")) {
             TypedQuery<Articulo> query = em.createNamedQuery("Articulo.findAll", Articulo.class);
             List<Articulo> articulos = query.getResultList();
             float totalComentarios = 0;
@@ -67,12 +72,15 @@ public class AdministradorController extends HttpServlet {
         if (!vista.equals("")) {
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
             rd.forward(request, response);
-        }
+        } else
+            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");   
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException { 
+            throws ServletException, IOException {
+        
+        response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");        
     }
 
 }
