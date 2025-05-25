@@ -36,7 +36,7 @@
                                             </p>
                                             <p class="mb-0">${comentario.cuerpo}</p>
                                         </div>
-                                        <c:if test="${sessionScope.adminId != null}">
+                                            <c:if test="${sessionScope.adminId != null || sessionScope.redactorId == articulo.redactor.id }">
                                             <div class="ms-3 text-end">
                                                 <a href="${sessionScope.ContextPath}/comentario/editar?id=${comentario.id}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
                                                 <form action="${sessionScope.ContextPath}/comentario/eliminar" method="POST" class="d-inline">
