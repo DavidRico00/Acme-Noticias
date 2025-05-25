@@ -87,13 +87,13 @@ public class AppController extends HttpServlet {
                 String email = request.getParameter("email"), psw = Seguridad.pwdMD5(request.getParameter("password"));
                 Administrador adm = checkAdmin(email, psw);
                 if (adm != null) {
-                    session.setAttribute("admin", adm.getId());
+                    session.setAttribute("adminId", adm.getId());
                     session.setAttribute("id", adm.getId());
                     identificado = true;
                 } else {
                     Redactor red = checkRedactor(email, psw);
                     if (red != null) {
-                        session.setAttribute("redactor", red.getId());
+                        session.setAttribute("redactorId", red.getId());
                         session.setAttribute("id", red.getId());
                         identificado = true;
                     }

@@ -19,6 +19,12 @@ import java.util.List;
 
 @WebServlet(name = "CategoriaController", urlPatterns = {"/gestionCategorias", "/categoria/*"})
 public class CategoriaController extends HttpServlet {
+/*      /gestionCategorias      GET     ADMIN
+        /categoria/nueva        GET     ADMIN
+        /categoria/editar?id    GET     ADMIN
+        /categoria/guardar      POST    ADMIN
+        /categoria/eliminar?id  POST    ADMIN
+*/
 
     @PersistenceContext(unitName = "AcmeNoticiasPU")
     private EntityManager em;
@@ -39,9 +45,14 @@ public class CategoriaController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         setAttributes(request);
+        if(session.getAttribute("adminId") == null){
+            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
+            return;
+        }
+        
         String vista = "";
-
-        if (servletPath.equals("/gestionCategorias")) {
+        
+        if (servletPath.equals("/gestionCategorias") && pathInfo==null || pathInfo.equals("")) {
             TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
             List<Categoria> categorias = query.getResultList();
             request.setAttribute("categorias", categorias);
@@ -58,18 +69,24 @@ public class CategoriaController extends HttpServlet {
                 vista = "nuevaCategoria";
             }
         }
+            
 
         if (!vista.equals("")) {
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
             rd.forward(request, response);
-        }
-
+        
+        } else
+            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         setAttributes(request);
+        if(session.getAttribute("adminId") == null){
+            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
+            return;
+        }
 
         if (servletPath.equals("/categoria")) {
             switch (pathInfo) {

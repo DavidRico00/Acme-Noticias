@@ -1,7 +1,9 @@
 package acme.controller;
 
+import acme.model.Administrador;
 import acme.model.Articulo;
 import acme.model.Categoria;
+import acme.model.Redactor;
 import acme.utilidad.Propiedades;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
@@ -49,12 +51,19 @@ public class ArticuloController extends HttpServlet {
                 Articulo art = em.find(Articulo.class, id);
                 request.setAttribute("articulo", art);
                 vista = "articulo";
+                
+                if(session.getAttribute("adminId") != null)
+                    request.setAttribute("usuario", em.find(Administrador.class, session.getAttribute("adminId")));
+                else if (session.getAttribute("redactorId") != null)
+                    request.setAttribute("usuario", em.find(Redactor.class, session.getAttribute("redactorId")));
+                
             } else if (pathInfo.equals("/nuevo")) {
                 TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
                 List<Categoria> categorias = query.getResultList();
                 request.setAttribute("categorias", categorias);
                 vista = "crearArticulo";
             }
+            
         } else if (servletPath.equals("/misarticulos")) {
             if (pathInfo == null) {
                 List<Articulo> articulos;

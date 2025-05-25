@@ -1,8 +1,3 @@
-<%-- 
-    Document   : misArticulos
-    Created on : 20 may 2025, 19:23:09
-    Author     : Antonio
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
