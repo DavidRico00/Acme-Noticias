@@ -104,8 +104,11 @@ public class ArticuloController extends HttpServlet {
         if (servletPath.equals("/articulo")) {
             if (pathInfo.equals("/eliminar")) {
                 long id = Long.parseLong(request.getParameter("id"));
+                Articulo art = articuloDAO.find(id);
+                System.out.println("ARTICULO: "+art.getTitulo());
+                boolean ok = articuloDAO.remove(art);
                 
-                if(articuloDAO.remove(articuloDAO.find(id)))
+                if(ok)
                     response.setStatus(HttpServletResponse.SC_OK);
                 else
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

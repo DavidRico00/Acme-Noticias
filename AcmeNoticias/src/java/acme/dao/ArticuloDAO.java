@@ -36,7 +36,8 @@ public class ArticuloDAO extends BaseDAO<Articulo> {
     public boolean remove(Articulo entidad) {
         try {
             utx.begin();
-            em.remove(entidad);
+            Articulo art = em.merge(entidad);
+            em.remove(art);
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             return false;

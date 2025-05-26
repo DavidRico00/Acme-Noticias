@@ -6,6 +6,7 @@ import acme.model.Articulo;
 import acme.model.Comentario;
 import acme.utilidad.Propiedades;
 import jakarta.ejb.EJB;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,6 +43,20 @@ public class ComentarioController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        setAttributes(request);
+        
+        String vista="";
+        
+        if(servletPath.equals("/comentario") && pathInfo.equals("/editar")){
+            Comentario com = comentarioDAO.find(Long.parseLong(request.getParameter("id")));
+            request.setAttribute("comentario", com);
+            vista="editarComentario";
+        }
+        
+        if (!vista.equals("")) {
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
@@ -78,12 +93,23 @@ public class ComentarioController extends HttpServlet {
                 long id = Long.parseLong(request.getParameter("id"));
                 long artId = Long.parseLong(request.getParameter("artId"));
 
-                Comentario com = comentarioDAO.find(id);
                 Articulo art = articuloDAO.find(artId);
-                art.getComentarios().remove(com);
-                art.setComentarios(art.getComentarios());
+                art.getComentarios().removeIf(c -> c.getId() == id);
                 articuloDAO.merge(art);
                     
+                response.sendRedirect(Propiedades.redirect + "/articulo?id=" + artId);
+            
+            }else if (pathInfo.equals("/modificar")) {
+                long id = Long.parseLong(request.getParameter("id"));
+                long artId = Long.parseLong(request.getParameter("articuloId"));
+                String nombre = request.getParameter("nombre");
+                String cuerpo = request.getParameter("cuerpo");
+                
+                Comentario com = comentarioDAO.find(id);
+                com.setNombre(nombre);
+                com.setCuerpo(cuerpo);
+                
+                comentarioDAO.merge(com);
                 response.sendRedirect(Propiedades.redirect + "/articulo?id=" + artId);
             }
         }

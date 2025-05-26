@@ -36,7 +36,7 @@ public class Articulo implements Serializable {
     private Redactor redactor;
     @ManyToOne(fetch = FetchType.LAZY)
     private Categoria categoria;
-    @OneToMany(mappedBy="articulo", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy="articulo", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comentario> comentarios;
     
     

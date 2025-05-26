@@ -36,7 +36,8 @@ public class CategoriaDAO extends BaseDAO<Categoria>{
     public boolean remove(Categoria entidad) {
         try {
             utx.begin();
-            em.remove(entidad);
+            Categoria cat = em.merge(entidad);
+            em.remove(cat);
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             return false;

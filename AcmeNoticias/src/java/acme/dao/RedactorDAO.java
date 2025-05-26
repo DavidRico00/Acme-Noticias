@@ -37,7 +37,8 @@ public class RedactorDAO extends BaseDAO<Redactor> {
     public boolean remove(Redactor entidad) {
         try {
             utx.begin();
-            em.remove(entidad);
+            Redactor red = em.merge(entidad);
+            em.remove(red);
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             return false;

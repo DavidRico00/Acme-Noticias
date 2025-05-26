@@ -127,7 +127,7 @@ public class AppController extends HttpServlet {
                     
                 } else {
                     request.setAttribute("msg", "Error: email o contraseña erroneos");
-                    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/vista.jsp");
+                    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
                     rd.forward(request, response);
                 }
             }
