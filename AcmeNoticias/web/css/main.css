@@ -36,3 +36,18 @@ body {
     height: 100%;
     object-fit: cover;
 }
+
+.inputs-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputs-perfil label {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs-perfil input {
+    text-align: center;
+}
