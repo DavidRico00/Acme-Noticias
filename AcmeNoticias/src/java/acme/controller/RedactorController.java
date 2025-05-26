@@ -1,9 +1,12 @@
 package acme.controller;
 
+import acme.dao.ArticuloDAO;
+import acme.dao.ComentarioDAO;
 import acme.model.Redactor;
 import acme.utilidad.Propiedades;
 import acme.utilidad.Seguridad;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -21,10 +24,11 @@ import java.util.List;
 @WebServlet(name = "RedactorController", urlPatterns = {"/creaRedactores", "/guardarRedactor", "/listaRedactores", "/eliminar"})
 public class RedactorController extends HttpServlet {
 
-    @PersistenceContext(unitName = "AcmeNoticiasPU")
-    private EntityManager em;
-    @Resource
-    private UserTransaction utx;
+    @EJB
+    private ComentarioDAO comentarioDAO;
+    
+    @EJB
+    private ArticuloDAO articuloDAO;
 
     private HttpSession session;
     String servletPath, pathInfo;
