@@ -1,14 +1,14 @@
 package acme.controller;
 
-import acme.model.Administrador;
+import acme.dao.AdministradorDAO;
+import acme.dao.ArticuloDAO;
+import acme.dao.CategoriaDAO;
+import acme.dao.RedactorDAO;
 import acme.model.Articulo;
 import acme.model.Categoria;
 import acme.model.Redactor;
 import acme.utilidad.Propiedades;
-import jakarta.annotation.Resource;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
+import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -17,20 +17,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.UserTransaction;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @WebServlet(name = "ArticuloController", urlPatterns = {"/articulo/*", "/misarticulos"})
 public class ArticuloController extends HttpServlet {
 
-    @PersistenceContext(unitName = "AcmeNoticiasPU")
-    private EntityManager em;
-    @Resource
-    private UserTransaction utx;
+    @EJB
+    private ArticuloDAO articuloDAO;
+    @EJB
+    private AdministradorDAO administradorDAO;
+    @EJB
+    private RedactorDAO redactorDAO;
+    @EJB
+    private CategoriaDAO categoriaDAO;
 
     private HttpSession session;
     String servletPath, pathInfo;
@@ -39,7 +40,7 @@ public class ArticuloController extends HttpServlet {
         servletPath = request.getServletPath();
         pathInfo = request.getPathInfo();
         session = request.getSession();
-        session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
+        session.setAttribute("ContextPath", Propiedades.contextPath);
     }
 
     @Override
@@ -51,40 +52,38 @@ public class ArticuloController extends HttpServlet {
         if (servletPath.equals("/articulo")) {
             if (pathInfo == null) {
                 long id = Long.parseLong(request.getParameter("id"));
-                Articulo art = em.find(Articulo.class, id);
+                Articulo art = articuloDAO.find(id);
                 request.setAttribute("articulo", art);
                 vista = "articulo";
 
                 if (session.getAttribute("adminId") != null) {
-                    request.setAttribute("usuario", em.find(Administrador.class, session.getAttribute("adminId")));
+                    long idAux = (long) session.getAttribute("adminId");
+                    request.setAttribute("usuario", administradorDAO.find(idAux));
                 } else if (session.getAttribute("redactorId") != null) {
-                    request.setAttribute("usuario", em.find(Redactor.class, session.getAttribute("redactorId")));
+                    long idAux = (long) session.getAttribute("redactorId");
+                    request.setAttribute("usuario", redactorDAO.find(idAux));
                 }
 
             } else if (pathInfo.equals("/nuevo")) {
-                TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
-                List<Categoria> categorias = query.getResultList();
+                List<Categoria> categorias = categoriaDAO.findAll();
                 request.setAttribute("categorias", categorias);
                 vista = "crearArticulo";
 
             } else if (pathInfo.equals("/editar")) {
                 long id = Long.parseLong(request.getParameter("id"));
-                Articulo art = em.find(Articulo.class, id);
+                Articulo art = articuloDAO.find(id);
                 request.setAttribute("articulo", art);
                 vista = "crearArticulo";
 
-                TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
-                List<Categoria> categorias = query.getResultList();
+                List<Categoria> categorias = categoriaDAO.findAll();
                 request.setAttribute("categorias", categorias);
             }
 
         } else if (servletPath.equals("/misarticulos")) {
             if (pathInfo == null) {
-                List<Articulo> articulos;
                 long id = Long.parseLong(request.getParameter("id"));
-                TypedQuery<Articulo> qArticulo = em.createNamedQuery("Articulo.findByRedactorID", Articulo.class);
-                qArticulo.setParameter("id", id);
-                articulos = qArticulo.getResultList();
+                
+                List<Articulo> articulos = articuloDAO.findByRedactorID(id);
                 request.setAttribute("articulos", articulos);
                 vista = "misArticulos";
             }
@@ -105,41 +104,30 @@ public class ArticuloController extends HttpServlet {
         if (servletPath.equals("/articulo")) {
             if (pathInfo.equals("/eliminar")) {
                 long id = Long.parseLong(request.getParameter("id"));
-                try {
-                    utx.begin();
-                    Articulo articulo = em.find(Articulo.class, id);
-                    em.remove(articulo);
-                    utx.commit();
+                
+                if(articuloDAO.remove(articuloDAO.find(id)))
                     response.setStatus(HttpServletResponse.SC_OK);
-                } catch (Exception ex) {
+                else
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                }
 
             } else if (pathInfo.equals("/guardar")) {
                 String titulo = request.getParameter("titulo");
                 long categoriaId = Long.parseLong(request.getParameter("categoriaId"));
                 String contenido = request.getParameter("contenidoHtml");
 
-                Categoria cat = em.find(Categoria.class, categoriaId);
+                Categoria cat = categoriaDAO.find(categoriaId);
                 long redactorId = Long.parseLong(request.getParameter("redactorId"));
 
                 if (request.getParameter("articuloId") != null) {
-                    Articulo art = em.find(Articulo.class, Long.parseLong(request.getParameter("articuloId")));
+                    Articulo art = articuloDAO.find(Long.parseLong(request.getParameter("articuloId")));
                     art.setTitulo(titulo);
                     art.setCuerpo(contenido);
                     art.setCategoria(cat);
 
-                    try {
-                        utx.begin();
-                        em.merge(art);
-                        utx.commit();
-                    } catch (Exception ex) {
-                        Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    articuloDAO.merge(art);
 
                 } else {
-
-                    Redactor red = em.find(Redactor.class, redactorId);
+                    Redactor red = redactorDAO.find(redactorId);
 
                     LocalDate fechaActual = LocalDate.now();
                     DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -147,16 +135,10 @@ public class ArticuloController extends HttpServlet {
 
                     Articulo articulo = new Articulo(titulo, contenido, fechaFormateada, red, cat);
 
-                    try {
-                        utx.begin();
-                        em.persist(articulo);
-                        utx.commit();
-                    } catch (Exception ex) {
-                        Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    articuloDAO.persist(articulo);
                 }
                 
-                response.sendRedirect(Propiedades.getInstance().ContextPath + "/misarticulos?id=" + redactorId);
+                response.sendRedirect(Propiedades.redirect + "/misarticulos?id=" + redactorId);
             }
         }
     }

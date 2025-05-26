@@ -1,11 +1,9 @@
 package acme.controller;
 
+import acme.dao.CategoriaDAO;
 import acme.model.Categoria;
 import acme.utilidad.Propiedades;
-import jakarta.annotation.Resource;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
+import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -14,7 +12,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.UserTransaction;
 import java.util.List;
 
 @WebServlet(name = "CategoriaController", urlPatterns = {"/gestionCategorias", "/categoria/*"})
@@ -26,10 +23,8 @@ public class CategoriaController extends HttpServlet {
         /categoria/eliminar?id  POST    ADMIN
 */
 
-    @PersistenceContext(unitName = "AcmeNoticiasPU")
-    private EntityManager em;
-    @Resource
-    private UserTransaction utx;
+    @EJB
+    private CategoriaDAO categoriaDAO;
 
     private HttpSession session;
     String servletPath, pathInfo;
@@ -38,7 +33,7 @@ public class CategoriaController extends HttpServlet {
         servletPath = request.getServletPath();
         pathInfo = request.getPathInfo();
         session = request.getSession();
-        session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
+        session.setAttribute("ContextPath", Propiedades.contextPath);
     }
 
     @Override
@@ -46,15 +41,14 @@ public class CategoriaController extends HttpServlet {
             throws ServletException, IOException {
         setAttributes(request);
         if(session.getAttribute("adminId") == null){
-            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
+            response.sendRedirect(Propiedades.redirect + "/main");
             return;
         }
         
         String vista = "";
         
         if (servletPath.equals("/gestionCategorias") && pathInfo==null || pathInfo.equals("")) {
-            TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
-            List<Categoria> categorias = query.getResultList();
+            List<Categoria> categorias = categoriaDAO.findAll();
             request.setAttribute("categorias", categorias);
             vista = "gestionCategorias";
             
@@ -64,7 +58,7 @@ public class CategoriaController extends HttpServlet {
                 
             } else if (pathInfo.equals("/editar")) {
                 long id = Long.parseLong(request.getParameter("id"));
-                Categoria cat = em.find(Categoria.class, id);
+                Categoria cat = categoriaDAO.find(id);
                 request.setAttribute("categoria", cat);
                 vista = "nuevaCategoria";
             }
@@ -76,7 +70,7 @@ public class CategoriaController extends HttpServlet {
             rd.forward(request, response);
         
         } else
-            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
+            response.sendRedirect(Propiedades.redirect + "/main");
     }
 
     @Override
@@ -84,7 +78,7 @@ public class CategoriaController extends HttpServlet {
             throws ServletException, IOException {
         setAttributes(request);
         if(session.getAttribute("adminId") == null){
-            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
+            response.sendRedirect(Propiedades.redirect + "/main");
             return;
         }
 
@@ -96,42 +90,28 @@ public class CategoriaController extends HttpServlet {
 
                     if (request.getParameter("id") == null || request.getParameter("id").equals("")) {
                         Categoria cat = new Categoria(nombre, desc);
-                        try {
-                            utx.begin();
-                            em.persist(cat);
-                            utx.commit();
-                        } catch (Exception ex) {
-                        }
+                        categoriaDAO.persist(cat);
                         
                     } else {
                         long id = Long.parseLong(request.getParameter("id"));
-                        Categoria cat = em.find(Categoria.class, id);
+                        Categoria cat = categoriaDAO.find(id);
                         cat.setNombre(nombre);
                         cat.setDescripcion(desc);
 
-                        try {
-                            utx.begin();
-                            em.merge(cat);
-                            utx.commit();
-                        } catch (Exception ex) {
-                        }
+                        categoriaDAO.merge(cat);
                     }
 
-                    response.sendRedirect(Propiedades.getInstance().ContextPath + "/gestionCategorias");
+                    response.sendRedirect(Propiedades.redirect + "/gestionCategorias");
                 }
                 break;
 
                 case "/eliminar": {
                     long id = Long.parseLong(request.getParameter("id"));
-                    try {
-                        utx.begin();
-                        Categoria cat = em.find(Categoria.class, id);
-                        em.remove(cat);
-                        utx.commit();
+                    
+                    if(categoriaDAO.remove(categoriaDAO.find(id)))
                         response.setStatus(HttpServletResponse.SC_OK);
-                    } catch (Exception ex) {
+                    else
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    }
                 }
                 break;
             }

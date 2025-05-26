@@ -3,6 +3,11 @@ package acme.dao;
 import acme.model.Articulo;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.HeuristicMixedException;
+import jakarta.transaction.HeuristicRollbackException;
+import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.SystemException;
 import java.util.List;
 
 @Stateless
@@ -21,7 +26,7 @@ public class ArticuloDAO extends BaseDAO<Articulo> {
             utx.begin();
             em.persist(entidad);
             utx.commit();
-        } catch (Exception ex) {
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             return false;
         }
         return true;
@@ -33,7 +38,7 @@ public class ArticuloDAO extends BaseDAO<Articulo> {
             utx.begin();
             em.remove(entidad);
             utx.commit();
-        } catch (Exception ex) {
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             return false;
         }
         return true;
@@ -45,7 +50,7 @@ public class ArticuloDAO extends BaseDAO<Articulo> {
             utx.begin();
             em.merge(entidad);
             utx.commit();
-        } catch (Exception ex) {
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             return false;
         }
         return true;

@@ -3,6 +3,11 @@ package acme.dao;
 import acme.model.Categoria;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.HeuristicMixedException;
+import jakarta.transaction.HeuristicRollbackException;
+import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.SystemException;
 import java.util.List;
 
 @Stateless
@@ -12,22 +17,43 @@ public class CategoriaDAO extends BaseDAO<Categoria>{
     
     @Override
     public Categoria find(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return em.find(Categoria.class, id);
     }
 
     @Override
     public boolean persist(Categoria entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            utx.begin();
+            em.persist(entidad);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean remove(Categoria entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            utx.begin();
+            em.remove(entidad);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean merge(Categoria entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            utx.begin();
+            em.merge(entidad);
+            utx.commit();
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            return false;
+        }
+        return true;
     }
     
     public List<Categoria> findAll(){

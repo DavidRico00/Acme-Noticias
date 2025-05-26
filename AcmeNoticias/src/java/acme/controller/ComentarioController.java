@@ -2,14 +2,10 @@ package acme.controller;
 
 import acme.dao.ArticuloDAO;
 import acme.dao.ComentarioDAO;
-import acme.dao.ComentarioDAO;
 import acme.model.Articulo;
 import acme.model.Comentario;
 import acme.utilidad.Propiedades;
-import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,15 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.HeuristicMixedException;
-import jakarta.transaction.HeuristicRollbackException;
-import jakarta.transaction.NotSupportedException;
-import jakarta.transaction.RollbackException;
-import jakarta.transaction.SystemException;
-import jakarta.transaction.UserTransaction;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -37,7 +25,6 @@ public class ComentarioController extends HttpServlet {
 
     @EJB
     private ComentarioDAO comentarioDAO;
-    
     @EJB
     private ArticuloDAO articuloDAO;
     
@@ -49,7 +36,7 @@ public class ComentarioController extends HttpServlet {
         servletPath = request.getServletPath();
         pathInfo = request.getPathInfo();
         session = request.getSession();
-        session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
+        session.setAttribute("ContextPath", Propiedades.contextPath);
     }
 
     @Override
@@ -84,7 +71,7 @@ public class ComentarioController extends HttpServlet {
                 comentarioDAO.persist(comentario);
                 articuloDAO.merge(articulo);
                 
-                response.sendRedirect(Propiedades.getInstance().redirect + "/articulo?id=" + id);
+                response.sendRedirect(Propiedades.redirect + "/articulo?id=" + id);
             }
             
             else if(pathInfo.equals("/eliminar")){
@@ -92,13 +79,12 @@ public class ComentarioController extends HttpServlet {
                 long artId = Long.parseLong(request.getParameter("artId"));
 
                 Comentario com = comentarioDAO.find(id);
-                Articulo art = articuloDAO.find(id);
+                Articulo art = articuloDAO.find(artId);
                 art.getComentarios().remove(com);
                 art.setComentarios(art.getComentarios());
                 articuloDAO.merge(art);
-                comentarioDAO.remove(com);
                     
-                response.sendRedirect(Propiedades.getInstance().ContextPath + "/articulo?id=" + artId);
+                response.sendRedirect(Propiedades.redirect + "/articulo?id=" + artId);
             }
         }
     }

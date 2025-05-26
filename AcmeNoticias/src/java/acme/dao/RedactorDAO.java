@@ -2,6 +2,7 @@ package acme.dao;
 
 import acme.model.Redactor;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.HeuristicMixedException;
 import jakarta.transaction.HeuristicRollbackException;
@@ -61,11 +62,15 @@ public class RedactorDAO extends BaseDAO<Redactor> {
         query = em.createNamedQuery("Redactor.findAll", Redactor.class);
         return query.getResultList();
     }
-    
-    public Redactor findByEmailPwd(String email, String pwd){
-        query = em.createNamedQuery("Redactor.findByEmailPwd", Redactor.class);
-        query.setParameter("email", email);
-        query.setParameter("pwd", pwd);
-        return query.getSingleResult();
+
+    public Redactor findByEmailPwd(String email, String pwd) {
+        try {
+            query = em.createNamedQuery("Redactor.findByEmailPwd", Redactor.class);
+            query.setParameter("email", email);
+            query.setParameter("pwd", pwd);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

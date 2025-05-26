@@ -1,15 +1,10 @@
 package acme.controller;
 
-import acme.dao.ArticuloDAO;
-import acme.dao.ComentarioDAO;
+import acme.dao.RedactorDAO;
 import acme.model.Redactor;
 import acme.utilidad.Propiedades;
 import acme.utilidad.Seguridad;
-import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -18,17 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.UserTransaction;
 import java.util.List;
 
 @WebServlet(name = "RedactorController", urlPatterns = {"/creaRedactores", "/guardarRedactor", "/listaRedactores", "/eliminar"})
 public class RedactorController extends HttpServlet {
 
     @EJB
-    private ComentarioDAO comentarioDAO;
-    
-    @EJB
-    private ArticuloDAO articuloDAO;
+    private RedactorDAO redactorDAO;
 
     private HttpSession session;
     String servletPath, pathInfo;
@@ -37,7 +28,7 @@ public class RedactorController extends HttpServlet {
         servletPath = request.getServletPath();
         pathInfo = request.getPathInfo();
         session = request.getSession();
-        session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
+        session.setAttribute("ContextPath", Propiedades.contextPath);
     }
 
     @Override
@@ -50,12 +41,11 @@ public class RedactorController extends HttpServlet {
             vista = "creaRedactores";
             
         } else if (servletPath.equals("/listaRedactores")) {
-            TypedQuery<Redactor> query = em.createNamedQuery("Redactor.findAll", Redactor.class);
-            List<Redactor> redactores = query.getResultList();
+            List<Redactor> redactores = redactorDAO.findAll();
             request.setAttribute("redactores", redactores);
             vista = "listaRedactores";
         }
-
+        
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
         rd.forward(request, response);
     }
@@ -73,28 +63,18 @@ public class RedactorController extends HttpServlet {
             String pwd = Seguridad.pwdMD5(request.getParameter("pwd"));
 
             Redactor redactor = new Redactor(nombre, apellido, dni, email, pwd);
+            redactorDAO.persist(redactor);
 
-            try {
-                utx.begin();
-                em.persist(redactor);
-                utx.commit();
-            } catch (Exception ex) {
-            }
-
-            response.sendRedirect(Propiedades.getInstance().ContextPath + "/listaRedactores");
+            response.sendRedirect(Propiedades.redirect + "/listaRedactores");
             
         } else if (servletPath.equals("/eliminar")) {
             
             long id = Long.parseLong(request.getParameter("id"));
-            try {
-                utx.begin();
-                Redactor redactor = em.find(Redactor.class, id);
-                em.remove(redactor);
-                utx.commit();
+            
+            if(redactorDAO.remove(redactorDAO.find(id)))
                 response.setStatus(HttpServletResponse.SC_OK);
-            } catch (Exception ex) {
+            else
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
         }
     }
 }
