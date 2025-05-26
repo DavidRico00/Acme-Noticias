@@ -1,19 +1,22 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'es'}" />
+<fmt:setBundle basename="resources.messages" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <%@include file="shared/head.jsp" %>
-        <title>Mis Redactores - Noticias Acme, S.A</title>
+        <title><fmt:message key="redactores.titulo.pagina"/></title>
     </head>
     <body>
         <%@include file="shared/header.jsp" %>
 
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="mb-0">Listado de Redactores</h1>
+                <h1 class="mb-0"><fmt:message key="redactores.encabezado"/></h1>
                 <a href="${sessionScope.ContextPath}/creaRedactores" class="btn btn-success">
-                    &#43; Nuevo Redactores
+                    &#43; <fmt:message key="redactores.boton.nuevo"/>
                 </a>
             </div>
 
@@ -22,10 +25,12 @@
                     <table class="table table-bordered table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellidos</th>
-                                <th scope="col">email</th>
+                                <th scope="col"><fmt:message key="redactores.columna.id"/></th>
+                                <th scope="col"><fmt:message key="redactores.columna.nombre"/></th>
+                                <th scope="col"><fmt:message key="redactores.columna.apellido"/></th>
+                                <th scope="col"><fmt:message key="redactores.columna.email"/></th>
+                                <th scope="col"><fmt:message key="redactores.columna.acciones"/></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -36,8 +41,8 @@
                                     <td>${redactores.apellido}</td>
                                     <td>${redactores.email}</td>
                                     <td>
-                                        <a href="${sessionScope.ContextPath}/perfil?id=${redactores.id}" class="btn btn-sm btn-warning me-1">Editar</a>
-                                        <a class="btn btn-sm btn-danger" onclick="eliminarRedactor('${sessionScope.ContextPath}', ${redactores.id})">Eliminar</a>
+                                        <a href="${sessionScope.ContextPath}/perfil?id=${redactores.id}" class="btn btn-sm btn-warning me-1"><fmt:message key="redactores.accion.editar"/></a>
+                                        <a class="btn btn-sm btn-danger" onclick="eliminarRedactor('${sessionScope.ContextPath}', ${redactores.id})"><fmt:message key="redactores.accion.eliminar"/></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -45,7 +50,7 @@
                     </table>
                 </c:when>
                 <c:otherwise>
-                    <div class="alert alert-info">No hay redactores.</div>
+                    <div class="alert alert-info"><fmt:message key="redactores.alerta.vacio"/></div>
                 </c:otherwise>
             </c:choose>
         </div>

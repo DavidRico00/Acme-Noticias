@@ -20,7 +20,7 @@ import jakarta.transaction.UserTransaction;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AppController", urlPatterns = {"/main", "/login/*", "/logout"})
+@WebServlet(name = "AppController", urlPatterns = {"/main/*", "/login/*", "/logout"})
 public class AppController extends HttpServlet {
 
     @PersistenceContext(unitName = "AcmeNoticiasPU")
@@ -46,6 +46,14 @@ public class AppController extends HttpServlet {
 
         switch (servletPath) {
             case "/main": {
+                if(pathInfo != null && pathInfo.equals("/idioma")){
+                    String lang = request.getParameter("lang");
+                    if(lang != null && (lang.equals("es") || lang.equals("en"))){
+                        session.setAttribute("language", new java.util.Locale(lang));
+                    }
+                    response.sendRedirect(Propiedades.getInstance().redirect + "/main");
+                    return;
+                }
                 vista = "main";
                 TypedQuery<Articulo> query = em.createNamedQuery("Articulo.findAll", Articulo.class);
                 List<Articulo> articulos = query.getResultList();
