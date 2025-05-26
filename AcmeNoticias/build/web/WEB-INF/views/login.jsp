@@ -1,10 +1,13 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'es'}" />
+<fmt:setBundle basename="resources.messages" />
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <%@include file="shared/head.jsp" %>
-        <title>Iniciar Sesión - Noticias Acme, S.A.</title>
+        <title><fmt:message key="login.titulo.pagina"/></title>
     </head>
 
     <body class="body d-flex align-items-center justify-content-center vh-100">
@@ -12,29 +15,29 @@
         <main class="container" style="max-width: 400px;">        
             <div class="card shadow rounded-4">
                 <div class="card-body">
-                    
+
                     <c:if test="${!empty requestScope.msg}">
                         <div class="alert alert-danger text-center" role="alert">
                             ${requestScope.msg}
                         </div>
                     </c:if>
 
-                    <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+                    <h2 class="card-title text-center mb-4"><fmt:message key="login.titulo.formulario"/></h2>
 
                     <form action="${sessionScope.ContextPath}/login/check" method="POST">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label"><fmt:message key="login.label.email"/></label>
                             <input type="email" class="form-control" id="email" name="email" required autofocus>
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
+                            <label for="password" class="form-label"><fmt:message key="login.label.password"/></label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Entrar</button>
-                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message key="login.boton.entrar"/>
+                        </button>
                     </form>
                 </div>
             </div>

@@ -1,5 +1,8 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'es'}" />
+<fmt:setBundle basename="resources.messages" />
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -13,13 +16,13 @@
 
         <main class="container my-5">
             <section id="bienvenida" class="mb-4">
-                <h2>Bienvenido a Noticias Acme, S.A.</h2>
-                <p>Somos un portal de noticias digitales con cobertura internacional. Aquí encontrarás artículos clasificados por categorías como nacional, internacional, ciencia, deportes y cultura. ¡Mantente informado con nosotros!</p>
+                <h2><fmt:message key="bienvenida.titulo" /></h2>
+                <p><fmt:message key="bienvenida.descripcion" /></p>
             </section>
 
             <section id="ultimas-noticias">
                 <c:if test="${!empty requestScope.articulos}"> 
-                    <h2>Últimas Publicaciones</h2>
+                    <h2><fmt:message key="ultimas.publicaciones" /></h2>
                     <c:forEach var="articulo" items="${requestScope.articulos}">
                         <div class="card shadow-sm mb-4">
                             <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="text-decoration-none text-dark">
@@ -36,7 +39,7 @@
                     </c:forEach>
                 </c:if> 
                 <c:if test="${empty requestScope.articulos}"> 
-                    <h2>Oops! No hay articulos todavía!</h2> 
+                    <h2><fmt:message key="sin.articulos" /></h2> 
                 </c:if>
             </section>
         </main>
