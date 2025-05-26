@@ -9,9 +9,9 @@
     <%@include file="shared/header.jsp" %>
     <body>
         <div class="contenedor-perfil">
-            <c:if test= "${!empty requestScope.msg}">
-                <div class="alert alert-success" role="alert">
-                    ${requestScope.msg}
+            <c:if test="${not empty sessionScope.msg}">
+                <div class="alert alert-danger" role="alert">
+                    ${sessionScope.msg}
                 </div>
                 <c:remove var="msg" scope="session"/>
             </c:if>
@@ -26,18 +26,25 @@
                             <img src="${sessionScope.ContextPath}/img/default.jpg"/>
                         </c:if>
                     </div>
-                    
+
                     <h2 class="titulostabla">${requestScope.redactor.nombre} ${requestScope.redactor.apellido}</h2>
                     <div class="inputs-perfil">
+
                         <label>
-                            <strong>Correo electrónico</strong> <input type="text" id="email" name="email" value="${requestScope.redactor.email}" disabled="true"/>
+                            <strong>Correo electrónico </strong> <input type="text" id="email" name="email" value="${requestScope.redactor.email}" disabled="true"/>
                         </label>
                         <label>
-                            <strong>DNI</strong> <input type="text" id="dni" name="dni" value="${requestScope.redactor.dni}" disabled="true"/>
+                            <strong>DNI </strong> <input type="text" id="dni" name="dni" value="${requestScope.redactor.dni}" disabled="true"/>
+                        </label>
+                        <label>
+                            <strong>Contraseña antigua </strong><input type="password" id="pwdantigua" name="pwdantigua" disabled="true" />
+                        </label>
+                        <label>
+                            <strong>Contraseña nueva </strong><input type="password" id="pwdnueva" name="pwdnueva" disabled="true"/>
                         </label>
                         <input type="file" id="profileimg" name="profileimg" style="display: none">
                     </div>
-                            
+
                     <button type="submit" class="btn btn-success editar-perfil" style="margin: 1rem; display: none" id="guardarPerfil">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
                         <path d="M11 2H9v3h2z"/>
