@@ -19,6 +19,9 @@ import java.util.List;
 @NamedQueries({
     @NamedQuery(name="Articulo.findAll", query="SELECT a FROM Articulo a"),
     @NamedQuery(name="Articulo.findByRedactorID", query="SELECT a FROM Articulo a WHERE a.redactor.id = :id"),
+    @NamedQuery(name="Articulo.findByCategoriaID", query="SELECT a FROM Articulo a WHERE a.categoria.id = :id"),
+    @NamedQuery(name="Articulo.findByWord", query="SELECT a FROM Articulo a WHERE a.titulo LIKE :buscador"),
+    @NamedQuery(name="Articulo.findByWordCategoriaID", query="SELECT a FROM Articulo a WHERE a.titulo LIKE :buscador AND a.categoria.id = :id"),
 })
 public class Articulo implements Serializable {
 
@@ -41,13 +44,12 @@ public class Articulo implements Serializable {
     public Articulo() {
     }
 
-    public Articulo(String titulo, String cuerpo, String fecha, Redactor redactor, Categoria categoria, List<Comentario> comentarios) {
+    public Articulo(String titulo, String cuerpo, String fecha, Redactor redactor, Categoria categoria) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.fecha = fecha;
         this.redactor = redactor;
         this.categoria = categoria;
-        this.comentarios = comentarios;
     }
     
     

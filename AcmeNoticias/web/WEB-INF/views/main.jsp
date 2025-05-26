@@ -17,8 +17,30 @@
                 <p>Somos un portal de noticias digitales con cobertura internacional. Aquí encontrarás artículos clasificados por categorías como nacional, internacional, ciencia, deportes y cultura. ¡Mantente informado con nosotros!</p>
             </section>
 
+            <section class="row mb-4">
+                <form action="${sessionScope.ContextPath}/main" method="GET" class="d-flex justify-content-between align-items-center">
+
+                    <div class="col-md-6 d-flex">
+                        <select name="categoriaId" class="form-select w-auto me-2">
+                            <option value="">Todas las categorías</option>
+                            <c:forEach var="cat" items="${requestScope.categorias}">
+                                <option value="${cat.id}">${cat.nombre}</option>
+                            </c:forEach>
+                        </select>
+                        <button type="submit" class="btn btn-outline-secondary">Filtrar</button>
+                    </div>
+
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <input type="text" name="q" class="form-control me-2" placeholder="Buscar artículos...">
+                        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+                    </div>
+
+                </form>
+            </section>
+
+
             <section id="ultimas-noticias">
-                <c:if test="${!empty requestScope.articulos}"> 
+                <c:if test="${!empty requestScope.articulos}">
                     <h2>Últimas Publicaciones</h2>
                     <c:forEach var="articulo" items="${requestScope.articulos}">
                         <div class="card shadow-sm mb-4">
@@ -34,9 +56,9 @@
                             </a>
                         </div>
                     </c:forEach>
-                </c:if> 
-                <c:if test="${empty requestScope.articulos}"> 
-                    <h2>Oops! No hay articulos todavía!</h2> 
+                </c:if>
+                <c:if test="${empty requestScope.articulos}">
+                    <h2>Oops! No hay artículos todavía!</h2>
                 </c:if>
             </section>
         </main>
@@ -46,4 +68,3 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
-

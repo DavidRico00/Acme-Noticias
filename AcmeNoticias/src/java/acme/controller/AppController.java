@@ -1,11 +1,14 @@
 package acme.controller;
 
+import acme.dao.ArticuloDAO;
 import acme.model.Administrador;
 import acme.model.Articulo;
+import acme.model.Categoria;
 import acme.model.Redactor;
 import acme.utilidad.Propiedades;
 import acme.utilidad.Seguridad;
 import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -16,17 +19,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.UserTransaction;
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "AppController", urlPatterns = {"/main", "/login/*", "/logout"})
 public class AppController extends HttpServlet {
-
-    @PersistenceContext(unitName = "AcmeNoticiasPU")
-    private EntityManager em;
-    @Resource
-    private UserTransaction utx;
+    
+    @EJB
+    private ArticuloDAO articuloDAO;
 
     private HttpSession session;
     String servletPath, pathInfo;
@@ -47,9 +47,35 @@ public class AppController extends HttpServlet {
         switch (servletPath) {
             case "/main": {
                 vista = "main";
-                TypedQuery<Articulo> query = em.createNamedQuery("Articulo.findAll", Articulo.class);
-                List<Articulo> articulos = query.getResultList();
+                String catId = request.getParameter("categoriaId");
+                String buscador = request.getParameter("q");
+
+                TypedQuery<Articulo> queryArt;
+                List<Articulo> articulos = null;
+
+                if (catId == null || buscador == null) {
+                    articulos = articuloDAO.findAll();
+                    
+                } else if (!catId.equals("") && !buscador.equals("")) {
+                    articulos = articuloDAO.findByWordCategoriaID(buscador, Long.parseLong(catId));
+
+                } else if (!catId.equals("") && buscador.equals("")) {
+                    queryArt = em.createNamedQuery("Articulo.findByCategoriaID", Articulo.class);
+                    queryArt.setParameter("id", Long.parseLong(catId));
+
+                //} else if(catId.equals("") && !buscador.equals("")){
+                } else {
+                    queryArt = em.createNamedQuery("Articulo.findByWord", Articulo.class);
+                    queryArt.setParameter("buscador", "%" + buscador + "%");
+                }
+
+                //articulos = queryArt.getResultList();
+
+                TypedQuery<Categoria> queryCat = em.createNamedQuery("Categoria.findAll", Categoria.class);
+                List<Categoria> categorias = queryCat.getResultList();
+
                 request.setAttribute("articulos", articulos);
+                request.setAttribute("categorias", categorias);
             }
             break;
 

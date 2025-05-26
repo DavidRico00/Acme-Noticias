@@ -24,10 +24,8 @@
                     </c:if>
                     <c:if test="${sessionScope.adminId != null}">
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/dashboard">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/gestionCategorias">Gestión de Categorias</a></li>
-                    </c:if>
-                    <c:if test="${sessionScope.admin != null}">
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores">Lista Redactores</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/gestionCategorias">Gestión Categorias</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores">Gestión Redactores</a></li>
                     </c:if>
                 </ul>
 

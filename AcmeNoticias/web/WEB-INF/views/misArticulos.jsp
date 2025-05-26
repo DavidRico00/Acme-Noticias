@@ -36,7 +36,7 @@
                                     <td>${articulo.cuerpo}</td>
                                     <td>
                                         <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="btn btn-sm btn-primary me-1">Ver</a>
-                                        <a href="editarArticulo?id=${articulo.id}" class="btn btn-sm btn-warning me-1">Editar</a>
+                                        <a href="${sessionScope.ContextPath}/articulo/editar?id=${articulo.id}" class="btn btn-sm btn-warning me-1">Editar</a>
                                         <a class="btn btn-sm btn-danger" onclick="eliminarArticulo('${sessionScope.ContextPath}', ${articulo.id})">Eliminar</a>
                                     </td>
                                 </tr>

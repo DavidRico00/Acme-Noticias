@@ -23,6 +23,7 @@ public class Comentario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre, cuerpo, fecha;
+    private boolean desactivado;
 
     // ---- Relaciones ----
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,6 +39,7 @@ public class Comentario implements Serializable {
         this.cuerpo = cuerpo;
         this.fecha = fecha;
         this.articulo = articulo;
+        this.desactivado = false;
     }
     
 
@@ -80,6 +82,14 @@ public class Comentario implements Serializable {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public boolean isDesactivado() {
+        return desactivado;
+    }
+
+    public void setDesactivado(boolean desactivado) {
+        this.desactivado = desactivado;
     }
     
     

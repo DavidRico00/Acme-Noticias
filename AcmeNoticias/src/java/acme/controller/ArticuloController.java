@@ -18,8 +18,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.UserTransaction;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "ArticuloController", urlPatterns = {"/articulo/*", "/misarticulos"})
 public class ArticuloController extends HttpServlet {
@@ -51,19 +54,30 @@ public class ArticuloController extends HttpServlet {
                 Articulo art = em.find(Articulo.class, id);
                 request.setAttribute("articulo", art);
                 vista = "articulo";
-                
-                if(session.getAttribute("adminId") != null)
+
+                if (session.getAttribute("adminId") != null) {
                     request.setAttribute("usuario", em.find(Administrador.class, session.getAttribute("adminId")));
-                else if (session.getAttribute("redactorId") != null)
+                } else if (session.getAttribute("redactorId") != null) {
                     request.setAttribute("usuario", em.find(Redactor.class, session.getAttribute("redactorId")));
-                
+                }
+
             } else if (pathInfo.equals("/nuevo")) {
                 TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
                 List<Categoria> categorias = query.getResultList();
                 request.setAttribute("categorias", categorias);
                 vista = "crearArticulo";
+
+            } else if (pathInfo.equals("/editar")) {
+                long id = Long.parseLong(request.getParameter("id"));
+                Articulo art = em.find(Articulo.class, id);
+                request.setAttribute("articulo", art);
+                vista = "crearArticulo";
+
+                TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
+                List<Categoria> categorias = query.getResultList();
+                request.setAttribute("categorias", categorias);
             }
-            
+
         } else if (servletPath.equals("/misarticulos")) {
             if (pathInfo == null) {
                 List<Articulo> articulos;
@@ -87,9 +101,9 @@ public class ArticuloController extends HttpServlet {
             throws ServletException, IOException {
         String vista = "";
         setAttributes(request);
-        
-        if(servletPath.equals("/articulo")){
-            if(pathInfo.equals("/eliminar")){
+
+        if (servletPath.equals("/articulo")) {
+            if (pathInfo.equals("/eliminar")) {
                 long id = Long.parseLong(request.getParameter("id"));
                 try {
                     utx.begin();
@@ -100,7 +114,49 @@ public class ArticuloController extends HttpServlet {
                 } catch (Exception ex) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
+
+            } else if (pathInfo.equals("/guardar")) {
+                String titulo = request.getParameter("titulo");
+                long categoriaId = Long.parseLong(request.getParameter("categoriaId"));
+                String contenido = request.getParameter("contenidoHtml");
+
+                Categoria cat = em.find(Categoria.class, categoriaId);
+                long redactorId = Long.parseLong(request.getParameter("redactorId"));
+
+                if (request.getParameter("articuloId") != null) {
+                    Articulo art = em.find(Articulo.class, Long.parseLong(request.getParameter("articuloId")));
+                    art.setTitulo(titulo);
+                    art.setCuerpo(contenido);
+                    art.setCategoria(cat);
+
+                    try {
+                        utx.begin();
+                        em.merge(art);
+                        utx.commit();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } else {
+
+                    Redactor red = em.find(Redactor.class, redactorId);
+
+                    LocalDate fechaActual = LocalDate.now();
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String fechaFormateada = fechaActual.format(formato);
+
+                    Articulo articulo = new Articulo(titulo, contenido, fechaFormateada, red, cat);
+
+                    try {
+                        utx.begin();
+                        em.persist(articulo);
+                        utx.commit();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 
+                response.sendRedirect(Propiedades.getInstance().ContextPath + "/misarticulos?id=" + redactorId);
             }
         }
     }
