@@ -6,12 +6,12 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
-public class ArticuloDAO extends BaseDAO<Articulo, Long> {
+public class ArticuloDAO extends BaseDAO<Articulo> {
 
     private TypedQuery<Articulo> query;
 
     @Override
-    public Articulo find(Long id) {
+    public Articulo find(long id) {
         return em.find(Articulo.class, id);
     }
 
