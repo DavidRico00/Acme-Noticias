@@ -1,16 +1,15 @@
 package acme.controller;
 
+import acme.dao.AdministradorDAO;
 import acme.dao.ArticuloDAO;
+import acme.dao.CategoriaDAO;
 import acme.model.Administrador;
 import acme.model.Articulo;
 import acme.model.Categoria;
 import acme.model.Redactor;
 import acme.utilidad.Propiedades;
 import acme.utilidad.Seguridad;
-import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -27,6 +26,10 @@ public class AppController extends HttpServlet {
     
     @EJB
     private ArticuloDAO articuloDAO;
+    @EJB
+    private CategoriaDAO categoriaDAO;
+    @EJB
+    private AdministradorDAO administradorDAO;
 
     private HttpSession session;
     String servletPath, pathInfo;
@@ -60,19 +63,14 @@ public class AppController extends HttpServlet {
                     articulos = articuloDAO.findByWordCategoriaID(buscador, Long.parseLong(catId));
 
                 } else if (!catId.equals("") && buscador.equals("")) {
-                    queryArt = em.createNamedQuery("Articulo.findByCategoriaID", Articulo.class);
-                    queryArt.setParameter("id", Long.parseLong(catId));
+                    articulos = articuloDAO.findByCategoriaID(Long.parseLong(catId));
 
                 //} else if(catId.equals("") && !buscador.equals("")){
                 } else {
-                    queryArt = em.createNamedQuery("Articulo.findByWord", Articulo.class);
-                    queryArt.setParameter("buscador", "%" + buscador + "%");
+                    articulos = articuloDAO.findByWord(buscador);
                 }
-
-                //articulos = queryArt.getResultList();
-
-                TypedQuery<Categoria> queryCat = em.createNamedQuery("Categoria.findAll", Categoria.class);
-                List<Categoria> categorias = queryCat.getResultList();
+                
+                List<Categoria> categorias = categoriaDAO.findAll();
 
                 request.setAttribute("articulos", articulos);
                 request.setAttribute("categorias", categorias);
@@ -141,31 +139,14 @@ public class AppController extends HttpServlet {
 
     }
 
-    private Administrador checkAdmin(String email, String psw) {
-        Administrador adm = null;
-
-        try {
-            TypedQuery<Administrador> query = em.createNamedQuery("Administrador.findByEmailPwd", Administrador.class);
-            query.setParameter("email", email);
-            query.setParameter("pwd", psw);
-            adm = query.getSingleResult();
-        } catch (Exception e) {
-        }
-
+    private Administrador checkAdmin(String email, String pwd) {
+        Administrador adm = administradorDAO.findByEmailPwd(email, pwd);
         return adm;
     }
 
-    private Redactor checkRedactor(String email, String psw) {
-        Redactor adm = null;
-
-        try {
-            TypedQuery<Redactor> query = em.createNamedQuery("Redactor.findByEmailPwd", Redactor.class);
-            query.setParameter("email", email);
-            query.setParameter("pwd", psw);
-            adm = query.getSingleResult();
-        } catch (Exception e) {
-        }
-
-        return adm;
+    private Redactor checkRedactor(String email, String pwd) {
+        //Redactor adm = redactorDAO.findByEmailPwd(email, pwd);
+        //return adm;
+        return null;
     }
 }

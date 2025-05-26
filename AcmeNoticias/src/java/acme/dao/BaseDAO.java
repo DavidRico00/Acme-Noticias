@@ -10,14 +10,14 @@ import jakarta.transaction.UserTransaction;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-public abstract class BaseDAO<C, L> {
+public abstract class BaseDAO<C> {
     
     @PersistenceContext(unitName = "AcmeNoticiasPU")
     protected EntityManager em;
     @Resource
     protected UserTransaction utx;
     
-    public abstract C find(L id);
+    public abstract C find(long id);
     
     public abstract boolean persist(C entidad);
     
