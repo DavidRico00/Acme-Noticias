@@ -26,7 +26,7 @@ public class Redactor implements Serializable {
     private String nombre, apellido, dni, email, pwd, rutaimg;
 
     // ---- Relaciones ----
-    @OneToMany(mappedBy = "redactor", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "redactor", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Articulo> articulos;
 
     // Constructores
@@ -40,6 +40,14 @@ public class Redactor implements Serializable {
         this.email = email;
         this.pwd = pwd;
         this.articulos = articulos;
+    }
+
+    public Redactor(String nombre, String apellido, String dni, String email, String pwd) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.email = email;
+        this.pwd = pwd;
     }
 
     // Getters and Setters

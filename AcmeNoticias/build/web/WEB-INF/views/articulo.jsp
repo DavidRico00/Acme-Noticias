@@ -29,8 +29,24 @@
                         <ul class="list-group">
                             <c:forEach var="comentario" items="${requestScope.articulo.comentarios}">
                                 <li class="list-group-item">
-                                    <p class="mb-1"><strong>${comentario.nombre}</strong> dijo el ${comentario.fecha}:</p>
-                                    <p class="mb-0">${comentario.cuerpo}</p>
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <p class="mb-1">
+                                                <strong>${comentario.nombre}</strong> dijo el ${comentario.fecha}:
+                                            </p>
+                                            <p class="mb-0">${comentario.cuerpo}</p>
+                                        </div>
+                                            <c:if test="${sessionScope.adminId != null || sessionScope.redactorId == articulo.redactor.id }">
+                                            <div class="ms-3 text-end">
+                                                <a href="${sessionScope.ContextPath}/comentario/editar?id=${comentario.id}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                                                <form action="${sessionScope.ContextPath}/comentario/eliminar" method="POST" class="d-inline">
+                                                    <input type="hidden" name="id" value="${comentario.id}">
+                                                    <input type="hidden" name="artId" value="${requestScope.articulo.id}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                                </form>
+                                            </div>
+                                        </c:if>
+                                    </div>
                                 </li>
                             </c:forEach>
                         </ul>
@@ -43,12 +59,12 @@
                             <h4 class="mb-0">Deja tu comentario</h4>
                         </div>
                         <div class="card-body">
-                            <form action="${sessionScope.ContextPath}/agregarComentario?articuloId=${requestScope.articulo.id}" method="post">
+                            <form action="${sessionScope.ContextPath}/comentario/agregar?articuloId=${requestScope.articulo.id}" method="post">
 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="nombre" class="form-label">Nombre *</label>
-                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" value="${usuario != null ? usuario.nombre : ''}" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">

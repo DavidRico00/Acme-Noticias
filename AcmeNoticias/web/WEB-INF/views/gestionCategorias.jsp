@@ -4,40 +4,39 @@
 <html>
     <head>
         <%@include file="shared/head.jsp" %>
-        <title>Mis Artículos - Noticias Acme, S.A</title>
+        <title>Gestión Categorías - Noticias Acme, S.A</title>
     </head>
     <body>
         <%@include file="shared/header.jsp" %>
 
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="mb-0">Listado de Artículos</h1>
-                <a href="${sessionScope.ContextPath}/articulo/nuevo" class="btn btn-success">
-                    &#43; Nuevo Artículo
+                <h1 class="mb-0">Listado de Categorías</h1>
+                <a href="${sessionScope.ContextPath}/categoria/nueva" class="btn btn-success">
+                    &#43; Nueva Categoría
                 </a>
             </div>
 
             <c:choose>
-                <c:when test="${!empty requestScope.articulos}">
+                <c:when test="${!empty requestScope.categorias}">
                     <table class="table table-bordered table-hover">
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Título</th>
-                                <th scope="col">Cuerpo</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="articulo" items="${requestScope.articulos}">
+                            <c:forEach var="categoria" items="${requestScope.categorias}">
                                 <tr>
-                                    <td>${articulo.id}</td>
-                                    <td>${articulo.titulo}</td>
-                                    <td>${articulo.cuerpo}</td>
+                                    <td>${categoria.id}</td>
+                                    <td>${categoria.nombre}</td>
+                                    <td>${categoria.descripcion}</td>
                                     <td>
-                                        <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="btn btn-sm btn-primary me-1">Ver</a>
-                                        <a href="editarArticulo?id=${articulo.id}" class="btn btn-sm btn-warning me-1">Editar</a>
-                                        <a class="btn btn-sm btn-danger" onclick="eliminarArticulo('${sessionScope.ContextPath}', ${articulo.id})">Eliminar</a>
+                                        <a href="${sessionScope.ContextPath}/categoria/editar?id=${categoria.id}" class="btn btn-sm btn-warning me-1">Editar</a>
+                                        <a class="btn btn-sm btn-danger" onclick="eliminarCategoria('${sessionScope.ContextPath}', ${categoria.id})">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -45,11 +44,10 @@
                     </table>
                 </c:when>
                 <c:otherwise>
-                    <div class="alert alert-info">No hay artículos disponibles.</div>
+                    <div class="alert alert-info">No hay categorías disponibles.</div>
                 </c:otherwise>
             </c:choose>
         </div>
-
 
         <%@include file="shared/footer.jsp" %>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

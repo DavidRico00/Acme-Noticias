@@ -4,40 +4,40 @@
 <html>
     <head>
         <%@include file="shared/head.jsp" %>
-        <title>Mis Artículos - Noticias Acme, S.A</title>
+        <title>Mis Redactores - Noticias Acme, S.A</title>
     </head>
     <body>
         <%@include file="shared/header.jsp" %>
 
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="mb-0">Listado de Artículos</h1>
-                <a href="${sessionScope.ContextPath}/articulo/nuevo" class="btn btn-success">
-                    &#43; Nuevo Artículo
+                <h1 class="mb-0">Listado de Redactores</h1>
+                <a href="${sessionScope.ContextPath}/creaRedactores" class="btn btn-success">
+                    &#43; Nuevo Redactores
                 </a>
             </div>
 
             <c:choose>
-                <c:when test="${!empty requestScope.articulos}">
+                <c:when test="${!empty requestScope.redactores}">
                     <table class="table table-bordered table-hover">
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Título</th>
-                                <th scope="col">Cuerpo</th>
-                                <th scope="col">Acciones</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">email</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="articulo" items="${requestScope.articulos}">
+                            <c:forEach var="redactores" items="${requestScope.redactores}">
                                 <tr>
-                                    <td>${articulo.id}</td>
-                                    <td>${articulo.titulo}</td>
-                                    <td>${articulo.cuerpo}</td>
+                                    <td>${redactores.id}</td>
+                                    <td>${redactores.nombre}</td>
+                                    <td>${redactores.apellido}</td>
+                                    <td>${redactores.email}</td>
                                     <td>
-                                        <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="btn btn-sm btn-primary me-1">Ver</a>
-                                        <a href="editarArticulo?id=${articulo.id}" class="btn btn-sm btn-warning me-1">Editar</a>
-                                        <a class="btn btn-sm btn-danger" onclick="eliminarArticulo('${sessionScope.ContextPath}', ${articulo.id})">Eliminar</a>
+                                        <a href="${sessionScope.ContextPath}/perfil?id=${redactores.id}" class="btn btn-sm btn-warning me-1">Editar</a>
+                                        <a class="btn btn-sm btn-danger" onclick="eliminarRedactor('${sessionScope.ContextPath}', ${redactores.id})">Eliminar</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -45,7 +45,7 @@
                     </table>
                 </c:when>
                 <c:otherwise>
-                    <div class="alert alert-info">No hay artículos disponibles.</div>
+                    <div class="alert alert-info">No hay redactores.</div>
                 </c:otherwise>
             </c:choose>
         </div>

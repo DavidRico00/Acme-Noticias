@@ -13,6 +13,21 @@ function eliminarArticulo(contextPath, articuloId) {
     });
 }
 
+function eliminarCategoria(contextPath, categoriaId) {
+    if (!confirm("¿Estás seguro de que deseas eliminar esta Categoria? Hacer esto eliminará todos los articulos que le pertenezcan")) {
+        return;
+    }
+    fetch(`${contextPath}/categoria/eliminar?id=${categoriaId}`, {
+        method: 'POST'
+    }).then(response => {
+        if(response.ok){
+            location.reload();
+        }else{
+            alert("Error al eliminar el articulo");
+        }
+    });
+}
+
 function activarBotones(){
     document.getElementById("email").disabled = false;
     document.getElementById("dni").disabled = false;
@@ -26,4 +41,19 @@ function activarBotones(){
 
 function desactivarBotones(){
     location.reload();
+}
+
+function eliminarRedactor(contextPath, redactorId) {
+    if (!confirm("¿Estás seguro de que deseas eliminar este artículo?")) {
+        return;
+    }
+    fetch(`${contextPath}/eliminar?id=${redactorId}`, {
+        method: 'POST'
+    }).then(response => {
+        if(response.ok){
+            location.reload();
+        }else{
+            alert("Error al eliminar el articulo");
+        }
+    });
 }

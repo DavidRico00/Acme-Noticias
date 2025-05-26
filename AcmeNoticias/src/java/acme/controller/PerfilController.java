@@ -44,13 +44,16 @@ public class PerfilController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String vista = "perfil";
+        String vista = "";
         setAttributes(request);
 
-        long id = Long.parseLong(request.getParameter("id"));
+        if (servletPath.equals("/perfil")) {
+            long id = Long.parseLong(request.getParameter("id"));
 
-        Redactor redactor = em.find(Redactor.class, id);
-        request.setAttribute("redactor", redactor);
+            Redactor redactor = em.find(Redactor.class, id);
+            request.setAttribute("redactor", redactor);
+            vista = "perfil";
+        }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
         rd.forward(request, response);
