@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AppController", urlPatterns = {"/main", "/login/*", "/logout"})
+@WebServlet(name = "AppController", urlPatterns = {"/main/*", "/login/*", "/logout"})
 public class AppController extends HttpServlet {
 
     @EJB
@@ -51,6 +51,14 @@ public class AppController extends HttpServlet {
 
         switch (servletPath) {
             case "/main": {
+                if(pathInfo != null && pathInfo.equals("/idioma")){
+                    String lang = request.getParameter("lang");
+                    if(lang != null && (lang.equals("es") || lang.equals("en"))){
+                        session.setAttribute("language", new java.util.Locale(lang));
+                    }
+                    response.sendRedirect(Propiedades.getInstance().redirect + "/main");
+                    return;
+                }
                 vista = "main";
                 String catId = request.getParameter("categoriaId");
                 String buscador = request.getParameter("q");

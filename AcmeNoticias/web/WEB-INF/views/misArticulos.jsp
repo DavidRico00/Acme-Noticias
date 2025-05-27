@@ -1,19 +1,22 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'es'}" />
+<fmt:setBundle basename="resources.messages" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <%@include file="shared/head.jsp" %>
-        <title>Mis Artículos - Noticias Acme, S.A</title>
+        <title><fmt:message key="misarticulos.titulo.pagina"/></title>
     </head>
     <body>
         <%@include file="shared/header.jsp" %>
 
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="mb-0">Listado de Artículos</h1>
+                <h1 class="mb-0"><fmt:message key="misarticulos.titulo.seccion"/></h1>
                 <a href="${sessionScope.ContextPath}/articulo/nuevo" class="btn btn-success">
-                    &#43; Nuevo Artículo
+                    &#43; <fmt:message key="misarticulos.boton.nuevo"/>
                 </a>
             </div>
 
@@ -22,10 +25,10 @@
                     <table class="table table-bordered table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Título</th>
-                                <th scope="col">Cuerpo</th>
-                                <th scope="col">Acciones</th>
+                                <th scope="col"><fmt:message key="misarticulos.columna.id"/></th>
+                                <th scope="col"><fmt:message key="misarticulos.columna.titulo"/></th>
+                                <th scope="col"><fmt:message key="misarticulos.columna.cuerpo"/></th>
+                                <th scope="col"><fmt:message key="misarticulos.columna.acciones"/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,9 +38,9 @@
                                     <td>${articulo.titulo}</td>
                                     <td>${articulo.cuerpo}</td>
                                     <td>
-                                        <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="btn btn-sm btn-primary me-1">Ver</a>
-                                        <a href="${sessionScope.ContextPath}/articulo/editar?id=${articulo.id}" class="btn btn-sm btn-warning me-1">Editar</a>
-                                        <a class="btn btn-sm btn-danger" onclick="eliminarArticulo('${sessionScope.ContextPath}', ${articulo.id})">Eliminar</a>
+                                        <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="btn btn-sm btn-primary me-1"><fmt:message key="misarticulos.accion.ver"/></a>
+                                        <a href="${sessionScope.ContextPath}/articulo/editar?id=${articulo.id}" class="btn btn-sm btn-warning me-1"><fmt:message key="misarticulos.accion.editar"/></a>
+                                        <a class="btn btn-sm btn-danger" onclick="eliminarArticulo('${sessionScope.ContextPath}', ${articulo.id})"><fmt:message key="misarticulos.accion.eliminar"/></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -45,7 +48,7 @@
                     </table>
                 </c:when>
                 <c:otherwise>
-                    <div class="alert alert-info">No hay artículos disponibles.</div>
+                    <div class="alert alert-info"><fmt:message key="misarticulos.alerta.vacio"/></div>
                 </c:otherwise>
             </c:choose>
         </div>
