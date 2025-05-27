@@ -18,7 +18,6 @@
         <%@include file="shared/header.jsp" %>
 
         <div class="container mt-5">
-
             <c:if test="${categoria == null}">
                 <h1><fmt:message key="categoria.encabezado"/></h1>
             </c:if>
@@ -43,7 +42,6 @@
                 <button type="submit" class="btn btn-primary"><fmt:message key="categoria.boton.guardar"/></button>
                 <a href="${sessionScope.ContextPath}/gestionCategorias" class="btn btn-secondary"><fmt:message key="categoria.boton.cancelar"/></a>
             </form>
-
         </div>
 
         <%@include file="shared/footer.jsp" %>

@@ -46,6 +46,7 @@
 
                 <c:if test="${!empty requestScope.articulos}"> 
                     <h2><fmt:message key="ultimas.publicaciones" /></h2>
+
                     <c:forEach var="articulo" items="${requestScope.articulos}">
                         <div class="card shadow-sm mb-4">
                             <a href="${sessionScope.ContextPath}/articulo?id=${articulo.id}" class="text-decoration-none text-dark">

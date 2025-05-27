@@ -12,7 +12,7 @@
             <title><fmt:message key="articulo.titulo.pagina"/></title>
         </c:if>
         <c:if test="${not empty articulo}">
-            <title>Editar Artículo - Noticias Acme, S.A</title>
+            <title><fmt:message key="articulo.titulo.pagina.editar"/></title>
         </c:if>
     </head>
     <body class="body">
@@ -27,19 +27,19 @@
                             <h2 class="h4 mb-0"><i class="bi bi-file-earmark-plus me-2"></i><fmt:message key="articulo.encabezado"/></h2>
                         </c:if>
                         <c:if test="${not empty articulo}">
-                            <h2 class="h4 mb-0"><i class="bi bi-file-earmark-plus me-2"></i>Editar Artículo</h2>
+                            <h2 class="h4 mb-0"><i class="bi bi-file-earmark-plus me-2"></i><fmt:message key="articulo.encabezado.editar"/></h2>
                         </c:if>
                     </div>
                     <div class="card-body">
                       
-                       <c:if test="${not empty requestScope.error}">
+                      <c:if test="${not empty requestScope.error}">
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 ${requestScope.error}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         </c:if>
-                      
-                      <c:if test="${not empty requestScope.success}">
+
+                        <c:if test="${not empty requestScope.success}">
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 ${requestScope.success}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -54,7 +54,7 @@
                             </c:if>
 
                             <div class="mb-3">
-                                <label for="titulo" class="form-label"><fmt:message key="articulo.label.titulo"/> *</label>
+                                <label for="titulo" class="form-label"><fmt:message key="articulo.label.titulo"/></label>
                                 <input type="text" class="form-control" id="titulo" name="titulo" value="${articulo != null ? articulo.titulo : ''}"
                                        placeholder="<fmt:message key='articulo.placeholder.titulo'/>" required maxlength="200">
                             </div>
@@ -68,7 +68,7 @@
                                     <option value="" disabled <c:if test="${empty articulo.categoria.nombre}">selected</c:if>>
                                             <fmt:message key="articulo.option.categoria"/>
                                         </option>
-                              
+
                                     <c:forEach var="categoria" items="${requestScope.categorias}">
                                         <option value="${categoria.id}"
                                                 <c:if test="${not empty articulo.categoria and categoria.id == articulo.categoria.id}">selected</c:if>>
@@ -92,7 +92,6 @@
 
                                 <button type="button" class="btn btn-outline-secondary" onclick="location.href = '${sessionScope.ContextPath}/misarticulos?id=${redactorId}'">
                                     <i class="bi bi-x-circle me-1"></i><fmt:message key="articulo.boton.cancelar"/>
-
                                 </button>
                                 <button type="submit" class="btn btn-primary" id="btnPublicar">
                                     <i class="bi bi-send me-1"></i>
@@ -106,7 +105,6 @@
         </main>
 
         <%@include file="shared/footer.jsp" %>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.min.js"></script>
 

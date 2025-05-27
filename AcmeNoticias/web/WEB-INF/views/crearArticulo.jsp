@@ -12,7 +12,7 @@
             <title><fmt:message key="articulo.titulo.pagina"/></title>
         </c:if>
         <c:if test="${not empty articulo}">
-            <title>Editar Artículo - Noticias Acme, S.A</title>
+            <title><fmt:message key="articulo.titulo.pagina.editar"/></title>
         </c:if>
     </head>
     <body class="body">
@@ -27,7 +27,7 @@
                             <h2 class="h4 mb-0"><i class="bi bi-file-earmark-plus me-2"></i><fmt:message key="articulo.encabezado"/></h2>
                         </c:if>
                         <c:if test="${not empty articulo}">
-                            <h2 class="h4 mb-0"><i class="bi bi-file-earmark-plus me-2"></i>Editar Artículo</h2>
+                            <h2 class="h4 mb-0"><i class="bi bi-file-earmark-plus me-2"></i><fmt:message key="articulo.encabezado.editar"/></h2>
                         </c:if>
                     </div>
                     <div class="card-body">
@@ -54,7 +54,7 @@
                             </c:if>
 
                             <div class="mb-3">
-                                <label for="titulo" class="form-label"><fmt:message key="articulo.label.titulo"/> *</label>
+                                <label for="titulo" class="form-label"><fmt:message key="articulo.label.titulo"/></label>
                                 <input type="text" class="form-control" id="titulo" name="titulo" value="${articulo != null ? articulo.titulo : ''}"
                                        placeholder="<fmt:message key='articulo.placeholder.titulo'/>" required maxlength="200">
                             </div>

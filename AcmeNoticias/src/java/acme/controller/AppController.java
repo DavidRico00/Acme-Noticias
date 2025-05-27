@@ -56,7 +56,7 @@ public class AppController extends HttpServlet {
                     if(lang != null && (lang.equals("es") || lang.equals("en"))){
                         session.setAttribute("language", new java.util.Locale(lang));
                     }
-                    response.sendRedirect(Propiedades.getInstance().redirect + "/main");
+                    response.sendRedirect(Propiedades.redirect + "/main");
                     return;
                 }
                 vista = "main";

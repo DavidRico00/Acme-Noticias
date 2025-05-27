@@ -27,30 +27,16 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">    
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/main">
-                            <fmt:message key="header.inicio"/>
-                        </a></li>
-
-                    <c:if test="${sessionScope.id != null}">
-
-                    </c:if>
+                    <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/main"><fmt:message key="header.inicio"/></a></li>
                     <c:if test="${sessionScope.redactorId != null}">
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/perfil?id=${sessionScope.id}">
-                                <fmt:message key="header.perfil"/>
-                            </a></li>
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/misarticulos?id=${sessionScope.id}">
-                                <fmt:message key="header.misarticulos"/>
-                            </a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/perfil?id=${sessionScope.id}"><fmt:message key="header.perfil"/></a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/misarticulos?id=${sessionScope.id}"><fmt:message key="header.misarticulos"/></a></li>
                     </c:if>
                     <c:if test="${sessionScope.adminId != null}">
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/dashboard"><fmt:message key="header.dashboard"/></a></li>
                         <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/gestionCategorias"><fmt:message key="header.gestion.categorias"/></a></li>
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores">Gesti�n Redactores</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores"><fmt:message key="header.lista.redactores"/></a></li>
                     </c:if>
-                    <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores">
-                            <fmt:message key="header.lista.redactores"/>
-                        </a></li>
-
                 </ul>
 
                 <ul class="navbar-nav ms-auto">

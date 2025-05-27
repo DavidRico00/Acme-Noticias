@@ -3,18 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USER/OneDrive/Escritorio/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/editarComentario.jsp</file>
-            <file>file:/C:/Users/USER/OneDrive/Escritorio/Acme-Noticias/AcmeNoticias/src/java/acme/controller/ComentarioController.java</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/nuevaCategoria.jsp</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/creaRedactores.jsp</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/src/java/resources/messages_es.properties</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/login.jsp</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/main.jsp</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/src/java/resources/messages_en.properties</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/misArticulos.jsp</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/perfil.jsp</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/crearArticulo.jsp</file>
-            <file>file:/C:/Users/Antonio/Desktop/UNIVERSIDAD/5%20AÑO/MANTENIMIENTO/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/articulo.jsp</file>
+            <file>file:/C:/Users/USER/OneDrive/Escritorio/Acme-Noticias/AcmeNoticias/src/java/resources/messages_es.properties</file>
+            <file>file:/C:/Users/USER/OneDrive/Escritorio/Acme-Noticias/AcmeNoticias/src/java/resources/messages_en.properties</file>
+            <file>file:/C:/Users/USER/OneDrive/Escritorio/Acme-Noticias/AcmeNoticias/web/WEB-INF/views/crearArticulo.jsp</file>
         </group>
     </open-files>
 </project-private>
