@@ -26,7 +26,7 @@ public class Redactor implements Serializable {
     private String nombre, apellido, dni, email, pwd, rutaimg;
 
     // ---- Relaciones ----
-    @OneToMany(mappedBy = "redactor", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "redactor", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Articulo> articulos;
 
     // Constructores

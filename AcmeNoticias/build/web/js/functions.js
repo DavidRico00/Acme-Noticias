@@ -44,7 +44,7 @@ function desactivarBotones(){
 }
 
 function eliminarRedactor(contextPath, redactorId) {
-    if (!confirm("¿Estás seguro de que deseas eliminar este artículo?")) {
+    if (!confirm("¿Estás seguro de que deseas eliminar este Redactor? Se eliminarán todos sus artículos")) {
         return;
     }
     fetch(`${contextPath}/eliminar?id=${redactorId}`, {

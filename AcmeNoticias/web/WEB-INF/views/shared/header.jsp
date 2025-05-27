@@ -43,12 +43,9 @@
                             </a></li>
                     </c:if>
                     <c:if test="${sessionScope.adminId != null}">
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/dashboard">
-                                <fmt:message key="header.dashboard"/>
-                            </a></li>
-                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/gestionCategorias">
-                                <fmt:message key="header.gestion.categorias"/>
-                            </a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/dashboard"><fmt:message key="header.dashboard"/></a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/gestionCategorias"><fmt:message key="header.gestion.categorias"/></a></li>
+                        <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores">Gesti�n Redactores</a></li>
                     </c:if>
                     <li class="nav-item"><a class="nav-link" href="${sessionScope.ContextPath}/listaRedactores">
                             <fmt:message key="header.lista.redactores"/>

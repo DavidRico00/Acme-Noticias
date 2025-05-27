@@ -1,11 +1,9 @@
 package acme.controller;
 
+import acme.dao.ArticuloDAO;
 import acme.model.Articulo;
 import acme.utilidad.Propiedades;
-import jakarta.annotation.Resource;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
+import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -14,7 +12,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.UserTransaction;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,10 +20,8 @@ public class AdministradorController extends HttpServlet {
 /*      /dashboard  GET  ADMIN  ✅
 */
 
-    @PersistenceContext(unitName = "AcmeNoticiasPU")
-    private EntityManager em;
-    @Resource
-    private UserTransaction utx;
+    @EJB
+    private ArticuloDAO articuloDAO;
 
     private HttpSession session;
     String servletPath, pathInfo;
@@ -35,7 +30,7 @@ public class AdministradorController extends HttpServlet {
         servletPath = request.getServletPath();
         pathInfo = request.getPathInfo();
         session = request.getSession();
-        session.setAttribute("ContextPath", Propiedades.getInstance().ContextPath);
+        session.setAttribute("ContextPath", Propiedades.contextPath);
     }
 
     @Override
@@ -43,16 +38,16 @@ public class AdministradorController extends HttpServlet {
             throws ServletException, IOException {
         setAttributes(request);
         if(session.getAttribute("adminId") == null){
-            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");
+            response.sendRedirect(Propiedades.redirect + "/main");
             return;
         }
         
         String vista = "";
 
         if (servletPath.equals("/dashboard") && pathInfo==null || pathInfo.equals("")) {
-            TypedQuery<Articulo> query = em.createNamedQuery("Articulo.findAll", Articulo.class);
-            List<Articulo> articulos = query.getResultList();
+            List<Articulo> articulos = articuloDAO.findAll();
             float totalComentarios = 0;
+            
             for (Articulo art : articulos) {
                 totalComentarios += art.getComentarios().size();
             }
@@ -73,14 +68,14 @@ public class AdministradorController extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + vista + ".jsp");
             rd.forward(request, response);
         } else
-            response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");   
+            response.sendRedirect(Propiedades.redirect + "/main");   
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        response.sendRedirect(Propiedades.getInstance().ContextPath + "/main");        
+        response.sendRedirect(Propiedades.redirect + "/main");        
     }
 
 }

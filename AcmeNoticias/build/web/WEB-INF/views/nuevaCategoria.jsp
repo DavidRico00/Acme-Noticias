@@ -18,28 +18,32 @@
         <%@include file="shared/header.jsp" %>
 
         <div class="container mt-5">
-            <h1><fmt:message key="categoria.encabezado"/></h1>
+
+            <c:if test="${categoria == null}">
+                <h1><fmt:message key="categoria.encabezado"/></h1>
+            </c:if>
+            <c:if test="${categoria != null}">
+                <h1>Editar Categoría</h1>
+            </c:if>
+
             <form action="${sessionScope.ContextPath}/categoria/guardar" method="POST">
                 <input type="text" id="id" name="id" value="${categoria.id}" style="display: none"/>
 
                 <div class="mb-3">
-                    <label for="nombre" class="form-label">
-                        <fmt:message key="categoria.label.nombre"/>
-                    </label>
+                    <label for="nombre" class="form-label"><fmt:message key="categoria.label.nombre"/></label>
                     <input type="text" class="form-control" id="nombre" name="nombre" 
                            value="${categoria.nombre != null ? categoria.nombre : ''}" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="descripcion" class="form-label">
-                        <fmt:message key="categoria.label.descripcion"/>
-                    </label>
+                    <label for="descripcion" class="form-label"><fmt:message key="categoria.label.descripcion"/></label>
                     <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required><c:out value="${categoria.descripcion != null ? categoria.descripcion : ''}" /></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary"><fmt:message key="categoria.boton.guardar"/></button>
                 <a href="${sessionScope.ContextPath}/gestionCategorias" class="btn btn-secondary"><fmt:message key="categoria.boton.cancelar"/></a>
             </form>
+
         </div>
 
         <%@include file="shared/footer.jsp" %>
