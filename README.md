@@ -10,6 +10,8 @@ Este proyecto utiliza **Docker** para facilitar la configuración y despliegue d
 Asegúrate de tener Docker instalado en tu sistema. Puedes descargarlo desde el siguiente enlace:
 
 🔗 [Descargar Docker](https://www.docker.com/)
+        ó
+🔗 [Descargar Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 ---
 
@@ -20,6 +22,12 @@ Asegúrate de tener Docker instalado en tu sistema. Puedes descargarlo desde el 
 
 ```bash
 docker-compose up -d --build
+```
+
+> 🐧 **Nota para usuarios de Linux**: Si el comando anterior no funciona debido a problemas con BuildKit, intenta lo siguiente:
+
+```bash
+sudo -E env "DOCKER_BUILDKIT=1" "COMPOSE_DOCKER_CLI_BUILD=1" docker-compose up -d --build
 ```
 
 Este comando:
@@ -65,7 +73,7 @@ Esto:
 
 ## 🧹 Limpieza completa (opcional)
 
-Si deseas eliminar también las imágenes y volúmenes generados por Docker para liberar espacio, puedes ejecutar:
+Si deseas eliminar también las imágenes generadas por Docker para liberar espacio, puedes ejecutar:
 
 ```bash
 docker-compose down --rmi all
