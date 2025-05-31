@@ -40,6 +40,12 @@ docker ps
 
 Esto mostrará una lista de los contenedores activos.
 
+> ⏱️ **Nota**: Pasado un tiempo tras levantar los contenedores, la aplicación estará disponible en tu navegador en la siguiente dirección:
+
+```
+http://localhost:8080/acme/main
+```
+
 ---
 
 ## 🛑 Cómo detener los contenedores
