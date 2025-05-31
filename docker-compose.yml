@@ -1,0 +1,19 @@
+services:
+  acmedb:
+    image: mysql:8.0-debian
+    ports:
+      - "3305:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=acme
+      - MYSQL_DATABASE=acmeNoticiasDB
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - 8080:8080
+      - 4848:4848
+    depends_on:
+      - acmedb
