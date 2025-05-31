@@ -57,38 +57,38 @@ CREATE TABLE Comentarios (
 -- Administradores
 INSERT INTO Administradores (nombre, email, pwd)
 VALUES 
-('Lucía', 'lucia@acme.com', '0192023a7bbd73250516f069df18b500'); -- admin123
+('Lucia', 'lucia@acme.com', '0192023a7bbd73250516f069df18b500'); -- admin123
 
 -- Redactores
 INSERT INTO Redactor (nombre, apellido, dni, email, pwd, rutaimg)
 VALUES 
-('Carlos', 'Pérez', '12345678A', 'carlos@acme.com', '32250170a0dca92d53ec9624f336ca24', null),
-('Ana', 'López', '87654321B', 'ana@acme.com', '32250170a0dca92d53ec9624f336ca24', null),
-('Diego', 'Martínez', '45678901C', 'diego@acme.com', '32250170a0dca92d53ec9624f336ca24', null);
+('Carlos', 'Perez', '12345678A', 'carlos@acme.com', '32250170a0dca92d53ec9624f336ca24', null),
+('Ana', 'Lopez', '87654321B', 'ana@acme.com', '32250170a0dca92d53ec9624f336ca24', null),
+('Diego', 'Martinez', '45678901C', 'diego@acme.com', '32250170a0dca92d53ec9624f336ca24', null);
 
--- Categorías
+-- Categorias
 INSERT INTO Categorias (nombre, descripcion) VALUES
-('Tecnología', 'Artículos sobre innovación y tecnología.'),
+('Tecnologia', 'Articulos sobre innovacion y tecnologia.'),
 ('Salud', 'Contenido relacionado con bienestar y salud.'),
-('Educación', 'Temas educativos, aprendizaje y pedagogía.'),
-('Cultura', 'Noticias sobre arte, cine, música y más.');
+('Educacion', 'Temas educativos, aprendizaje y pedagogia.'),
+('Cultura', 'Noticias sobre arte, cine, musica y mas.');
 
--- Artículos
+-- Articulos
 INSERT INTO Articulos (titulo, cuerpo, fecha, redactor_id, categoria_id) VALUES
-('La revolución de la IA', 'El impacto de la inteligencia artificial en el mundo moderno...', '2025-05-18', 1, 1),
+('La revolucion de la IA', 'El impacto de la inteligencia artificial en el mundo moderno...', '2025-05-18', 1, 1),
 ('Cuidando la salud mental', 'Importancia del autocuidado y la salud emocional...', '2025-05-18', 1, 2),
-('Tendencias educativas 2025', 'Nuevas metodologías que cambiarán la forma de enseñar...', '2025-05-19', 2, 3),
-('La música como forma de protesta', 'Análisis de cómo los artistas utilizan su voz...', '2025-05-19', 2, 4),
-('Tecnología en la educación', 'La integración de nuevas tecnologías en el aula...', '2025-05-20', 3, 1),
-('Alimentación saludable', 'Consejos para una dieta equilibrada y sostenible...', '2025-05-20', 3, 2);
+('Tendencias educativas 2025', 'Nuevas metodologias que cambiaran la forma de ensenar...', '2025-05-19', 2, 3),
+('La musica como forma de protesta', 'Analisis de como los artistas utilizan su voz...', '2025-05-19', 2, 4),
+('Tecnologia en la educacion', 'La integracion de nuevas tecnologias en el aula...', '2025-05-20', 3, 1),
+('Alimentacion saludable', 'Consejos para una dieta equilibrada y sostenible...', '2025-05-20', 3, 2);
 
 -- Comentarios
 INSERT INTO Comentarios (nombre, cuerpo, fecha, articulo_id) VALUES
 ('Ana', 'Muy interesante, gracias por compartir.', '2025-05-18', 1),
 ('Luis', 'Gran aporte sobre el tema de salud.', '2025-05-18', 2),
-('María', 'Este artículo me ayudó mucho, gracias.', '2025-05-19', 3),
-('Pedro', 'La cultura también puede ser política.', '2025-05-19', 4),
+('Maria', 'Este articulo me ayudo mucho, gracias.', '2025-05-19', 3),
+('Pedro', 'La cultura tambien puede ser politica.', '2025-05-19', 4),
 ('Javier', 'Muy buen enfoque educativo.', '2025-05-20', 5),
-('Lucía', 'Interesante cómo se conecta la tecnología con el aula.', '2025-05-20', 5),
-('Clara', 'Cuidado con los mitos sobre alimentación.', '2025-05-20', 6),
-('Sofía', 'Gracias por los consejos de salud.', '2025-05-20', 2);
+('Lucia', 'Interesante como se conecta la tecnologia con el aula.', '2025-05-20', 5),
+('Clara', 'Cuidado con los mitos sobre alimentacion.', '2025-05-20', 6),
+('Sofia', 'Gracias por los consejos de salud.', '2025-05-20', 2);
